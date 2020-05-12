@@ -1,0 +1,47 @@
+version: '3'
+services:
+  store-nginx:
+    build:
+      context: ./store/docker/development
+      dockerfile: nginx.docker
+    volumes:
+      - ./store:/app
+    depends_on:
+      - store-php-fpm
+    ports:
+      - "8080:80"
+  store-php-fpm:
+    build:
+      context: ./store/docker/development
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./store:/app
+    depends_on:
+      - store-postgres
+  store-php-cli:
+    build:
+      context: ./store/docker/development
+      dockerfile: php-cli.docker
+    volumes:
+      - ./store:/app
+      - composer:/root/.composer/cache
+    depends_on:
+      - store-postgres
+  store-postgres:
+    image: postgres:12.2-alpine
+    volumes:
+      - store-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: app
+    ports:
+      - "54321:5432"
+  mailer:
+    image: mailhog/mailhog
+    ports:
+      - "8081:8025"
+
+volumes:
+  store-postgres:
+  composer:
