@@ -41,6 +41,12 @@ class User
      */
     private $email;
 
+    /*
+     * @var string|null
+     * @ORM\Column(type="string", name="phone", nullable=true)
+     */
+    private $phone;
+
     /**
      * @var string|null
      * @ORM\Column(type="string", name="password_hash")
@@ -156,6 +162,11 @@ class User
     public function getEmail(): ?Email
     {
         return $this->email;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
     }
 
     public function getPasswordHash(): ?string
