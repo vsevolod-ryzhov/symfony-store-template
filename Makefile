@@ -17,7 +17,13 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-store-init: store-composer-install
+store-migrations:
+	until docker-compose exec -T store-postgres pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done ; docker-compose run --rm store-php-cli php bin/console doctrine:migrations:migrate --no-interaction
+
+logs:
+	docker-compose logs --tail=100 -f $(c)
+
+store-init: store-composer-install store-migrations
 
 store-composer-install:
 	docker-compose run --rm store-php-cli composer install

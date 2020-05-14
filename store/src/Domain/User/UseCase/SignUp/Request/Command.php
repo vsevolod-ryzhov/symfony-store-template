@@ -39,7 +39,7 @@ class Command
      * @var string
      * @Assert\NotBlank()
      * @Assert\Length(min=11, max=20)
-     * @Assert\Regex(pattern="/^\+?([0-9]{1})-?([0-9]{3})-?([0-9]{6,7})$/")
+     * @Assert\Regex(pattern=App\Domain\User\Entity\Phone::PHONE_REGEXP_PATTERN)
      */
     public $phone;
 }

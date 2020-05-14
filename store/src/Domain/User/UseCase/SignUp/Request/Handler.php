@@ -57,6 +57,7 @@ class Handler
                 $command->surname
             ),
             $email,
+            $command->phone,
             $this->password->hash($command->password),
             $token = $this->tokenGenerator->getToken()
         );

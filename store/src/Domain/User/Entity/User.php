@@ -7,6 +7,7 @@ namespace App\Domain\User\Entity;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\GeneratedValue;
 use DomainException;
 
 /**
@@ -26,6 +27,7 @@ class User
     /**
      * @ORM\Column
      * @ORM\Id
+     * @GeneratedValue
      */
     private $id;
 
@@ -41,9 +43,9 @@ class User
      */
     private $email;
 
-    /*
-     * @var string|null
-     * @ORM\Column(type="string", name="phone", nullable=true)
+    /**
+     * @var Phone|null
+     * @ORM\Column(type="user_user_phone", nullable=true)
      */
     private $phone;
 
@@ -90,10 +92,11 @@ class User
         $this->role = Role::user();
     }
 
-    public static function signUpByEmail(DateTimeImmutable $created_date, Name $name, Email $email, string $hash, string $token): self
+    public static function signUpByEmail(DateTimeImmutable $created_date, Name $name, Email $email, string $phone, string $hash, string $token): self
     {
         $user = new self($created_date, $name);
         $user->email = $email;
+        $user->phone = $phone;
         $user->passwordHash = $hash;
         $user->confirmToken = $token;
         $user->status = self::STATUS_WAIT;

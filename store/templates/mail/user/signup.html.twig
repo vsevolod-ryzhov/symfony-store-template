@@ -4,7 +4,7 @@
 
     <p>Для подтверждения регистрации перейдите по ссылке ниже:</p>
 
-    {% set url = url('auth.signup.confirm', {'token': token}) %}
+    {% set url = url(confirm_url, {'token': token}) %}
 
     <p><a href="{{ url }}">{{ url }}</a></p>
 

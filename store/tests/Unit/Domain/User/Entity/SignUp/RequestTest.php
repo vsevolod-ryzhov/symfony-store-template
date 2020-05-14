@@ -20,6 +20,7 @@ class RequestTest extends TestCase
             $date = new DateTimeImmutable(),
             $name = new Name('First', 'Last'),
             $email = new Email('test@app.test'),
+            $phone = '+79119669295',
             $hash = 'hash',
             $token = 'token'
         );
@@ -30,9 +31,16 @@ class RequestTest extends TestCase
         self::assertEquals($date, $user->getCreatedDate());
         self::assertEquals($name, $user->getName());
         self::assertEquals($email, $user->getEmail());
+        self::assertEquals($phone, $phone);
         self::assertEquals($hash, $user->getPasswordHash());
         self::assertEquals($token, $user->getConfirmToken());
 
+        self::assertEquals($user->getName()->getName(), $name->getName());
+        self::assertEquals($user->getName()->getSurname(), $name->getSurname());
+        self::assertEquals($user->getEmail()->getValue(), $email->getValue());
+
         self::assertTrue($user->getRole()->isUser());
+
+
     }
 }

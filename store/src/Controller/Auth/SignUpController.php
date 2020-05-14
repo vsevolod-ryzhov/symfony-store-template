@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Controller\Auth;
 
 use App\Domain\User\UseCase\SignUp;
+use App\Domain\User\UserQuery;
 use DomainException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,10 +56,16 @@ class SignUpController extends AbstractController
      * @Route("/signup/{token}", name="auth.signup.confirm")
      * @param Request $request
      * @param string $token
+     * @param UserQuery $query
      * @return Response
      */
-    public function confirm(Request $request, string $token): Response
+    public function confirm(Request $request, string $token, UserQuery $query): Response
     {
+        if (!$user = $query->findEmailBySignUpConfirmToken($token)) {
+            $this->addFlash('error', 'Не найден токен.');
+            return $this->redirectToRoute('auth.signup');
+        }
+
         return new Response($token);
     }
 }

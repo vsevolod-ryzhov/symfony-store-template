@@ -18,6 +18,7 @@ class TestUserFactory
     private $name;
 
     private $email;
+    private $phone;
     private $hash;
     private $token;
     private $confirmed;
@@ -25,13 +26,14 @@ class TestUserFactory
     public function __construct()
     {
         $this->date = new DateTimeImmutable();
-        $this->name = new Name('First', 'Last');
+        $this->name = new Name('Name', 'Surname');
     }
 
-    public function viaEmail(Email $email = null, string $hash = null, string $token = null): self
+    public function viaEmail(Email $email = null, string $phone = null, string $hash = null, string $token = null): self
     {
         $clone = clone $this;
         $clone->email = $email ?? new Email('mail@app.test');
+        $clone->phone = $phone ?? '+79001234567';
         $clone->hash = $hash ?? 'hash';
         $clone->token = $token ?? 'token';
         return $clone;
@@ -51,6 +53,7 @@ class TestUserFactory
                 $this->date,
                 $this->name,
                 $this->email,
+                $this->phone,
                 $this->hash,
                 $this->token
             );

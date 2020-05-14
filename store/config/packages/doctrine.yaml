@@ -10,6 +10,7 @@ doctrine:
 
         types:
             user_user_email: 'App\Domain\User\Entity\EmailType'
+            user_user_phone: 'App\Domain\User\Entity\PhoneType'
             user_user_role: 'App\Domain\User\Entity\RoleType'
     orm:
         auto_generate_proxy_classes: true

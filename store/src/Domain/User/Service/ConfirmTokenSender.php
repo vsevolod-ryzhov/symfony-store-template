@@ -28,6 +28,7 @@ class ConfirmTokenSender
         $message = (new Swift_Message('Подтверждение регистрации'))
             ->setTo($email->getValue())
             ->setBody($this->twig->render('mail/user/signup.html.twig', [
+                'confirm_url' => 'auth.signup.confirm',
                 'token' => $token
             ]), 'text/html');
 

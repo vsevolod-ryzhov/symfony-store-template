@@ -65,4 +65,13 @@ class UserRepository
     {
         $this->em->persist($user);
     }
+
+    /**
+     * @param string $token
+     * @return User|object|null
+     */
+    public function findByConfirmToken(string $token): ?User
+    {
+        return $this->repository->findOneBy(['confirmToken' => $token]);
+    }
 }

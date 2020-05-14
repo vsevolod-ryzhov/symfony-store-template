@@ -29,8 +29,8 @@ class Name
         Assert::notEmpty($name);
         Assert::notEmpty($surname);
 
-        $this->first = $name;
-        $this->last = $surname;
+        $this->name = $name;
+        $this->surname = $surname;
     }
 
     public function getName(): string
