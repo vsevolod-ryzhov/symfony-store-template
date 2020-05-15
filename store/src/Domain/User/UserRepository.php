@@ -74,4 +74,13 @@ class UserRepository
     {
         return $this->repository->findOneBy(['confirmToken' => $token]);
     }
+
+    /**
+     * @param string $token
+     * @return User|object|null
+     */
+    public function findByResetToken(string $token): ?User
+    {
+        return $this->repository->findOneBy(['resetToken.token' => $token]);
+    }
 }

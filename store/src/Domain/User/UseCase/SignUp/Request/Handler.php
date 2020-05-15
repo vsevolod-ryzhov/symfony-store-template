@@ -11,7 +11,7 @@ use App\Domain\User\Entity\Name;
 use App\Domain\User\Entity\User;
 use App\Domain\User\Helper\PasswordHelper;
 use App\Domain\User\Helper\TokenHelper;
-use App\Domain\User\Service\ConfirmTokenSender;
+use App\Domain\User\Service\TokenSender;
 use App\Domain\User\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +32,7 @@ class Handler
         UserRepository $repository,
         PasswordHelper $password,
         TokenHelper $tokenHelper,
-        ConfirmTokenSender $tokenSender
+        TokenSender $tokenSender
     )
     {
         $this->em = $em;
@@ -64,7 +64,7 @@ class Handler
 
         $this->repository->add($user);
 
-        $this->tokenSender->send($email, $token);
+        $this->tokenSender->sendSignUpConfirm($email, $token);
 
         $this->em->flush();
     }

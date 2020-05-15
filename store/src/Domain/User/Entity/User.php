@@ -137,6 +137,32 @@ class User
         $this->status = self::STATUS_BLOCKED;
     }
 
+    public function requestPasswordReset(ResetToken $token, DateTimeImmutable $date): void
+    {
+        if (!$this->isActive()) {
+            throw new DomainException('Пользователь не активирован.');
+        }
+        if (!$this->email) {
+            throw new DomainException('Не указан email.');
+        }
+        if ($this->resetToken && !$this->resetToken->isExpiredTo($date)) {
+            throw new DomainException('Запрос уже отправлен.');
+        }
+        $this->resetToken = $token;
+    }
+
+    public function passwordReset(DateTimeImmutable $date, string $hash): void
+    {
+        if (!$this->resetToken) {
+            throw new DomainException('Запрос не был создан.');
+        }
+        if ($this->resetToken->isExpiredTo($date)) {
+            throw new DomainException('Время действия токена истекло.');
+        }
+        $this->passwordHash = $hash;
+        $this->resetToken = null;
+    }
+
     public function isWait(): bool
     {
         return $this->status === self::STATUS_WAIT;
