@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Domain\User;
 
 
+use App\Domain\User\View\AuthView;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 
@@ -28,6 +29,27 @@ class UserQuery
             ->execute();
 
         $result = $stmt->fetch(FetchMode::COLUMN);
+
+        return $result ?: null;
+    }
+
+    public function findForAuthByEmail(string $email): ?AuthView
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'email',
+                'password_hash',
+                'role',
+                'status'
+            )
+            ->from('user_users')
+            ->where('email = :email')
+            ->setParameter(':email', $email)
+            ->execute();
+
+        $stmt->setFetchMode(FetchMode::CUSTOM_OBJECT, AuthView::class);
+        $result = $stmt->fetch();
 
         return $result ?: null;
     }
