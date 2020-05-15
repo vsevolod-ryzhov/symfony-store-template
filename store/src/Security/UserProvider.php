@@ -54,7 +54,7 @@ class UserProvider implements UserProviderInterface
 
     private function loadUser($username): AuthView
     {
-        if ($user = $this->userQuery->findForAuthByEmail($username)) {
+        if ($user = $this->userQuery->findForAuthByEmailOrPhone($username)) {
             return $user;
         }
 
@@ -65,7 +65,7 @@ class UserProvider implements UserProviderInterface
     {
         return new UserIdentity(
             $user->id,
-            $user->email ?: $username,
+            $user->phone ?: $user->email ?: $username,
             $user->password_hash ?: '',
             $user->role,
             $user->status

@@ -33,19 +33,21 @@ class UserQuery
         return $result ?: null;
     }
 
-    public function findForAuthByEmail(string $email): ?AuthView
+    public function findForAuthByEmailOrPhone(string $email_or_phone): ?AuthView
     {
         $stmt = $this->connection->createQueryBuilder()
             ->select(
                 'id',
                 'email',
+                'phone',
                 'password_hash',
                 'role',
                 'status'
             )
             ->from('user_users')
-            ->where('email = :email')
-            ->setParameter(':email', $email)
+            ->where('phone = :username')
+            ->orWhere('email = :username')
+            ->setParameter(':username', $email_or_phone)
             ->execute();
 
         $stmt->setFetchMode(FetchMode::CUSTOM_OBJECT, AuthView::class);
