@@ -23,10 +23,16 @@ store-migrations:
 logs:
 	docker-compose logs --tail=100 -f $(c)
 
-store-init: store-composer-install store-migrations
+store-init: store-composer-install store-assets-install store-migrations
 
 store-composer-install:
 	docker-compose run --rm store-php-cli composer install
+
+store-assets-install:
+	docker-compose run --rm store-node yarn install
+
+store-assets-dev:
+	docker-compose run --rm store-node npm run dev
 
 store-test:
 	docker-compose run --rm store-php-cli php bin/phpunit
