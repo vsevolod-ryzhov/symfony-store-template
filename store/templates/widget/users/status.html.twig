@@ -1,0 +1,7 @@
+{% if status == 'active' %}
+    <span class="badge badge-success">Active</span>
+{% elseif status == 'wait' %}
+    <span class="badge badge-primary">Wait</span>
+{% elseif status == 'blocked' %}
+    <span class="badge badge-secondary">Block</span>
+{% endif %}

@@ -65,4 +65,24 @@ class UserQuery
                 ->setParameter(':token', $token)
                 ->execute()->fetchColumn(0) > 0;
     }
+
+    public function all(): array
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'created_date',
+                'name_surname',
+                'name_name',
+                'email',
+                'phone',
+                'role',
+                'status'
+            )
+            ->from('user_users')
+            ->orderBy('created_date', 'desc')
+            ->execute();
+
+        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+    }
 }
