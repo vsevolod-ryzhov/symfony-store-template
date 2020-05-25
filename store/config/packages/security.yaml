@@ -38,3 +38,4 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }

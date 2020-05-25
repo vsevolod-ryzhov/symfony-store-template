@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Административный раздел{% endblock %}
+
+{% block body %}
+    admin index
+{% endblock %}
