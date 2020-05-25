@@ -3,5 +3,5 @@
 {% block title %}Административный раздел{% endblock %}
 
 {% block body %}
-    admin index
+
 {% endblock %}
