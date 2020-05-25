@@ -27,6 +27,7 @@ store-init: store-composer-install store-assets-install store-migrations
 
 store-composer-install:
 	docker-compose run --rm store-php-cli composer install
+	docker-compose run --rm store-node npm rebuild node-sass
 
 store-assets-install:
 	docker-compose run --rm store-node yarn install

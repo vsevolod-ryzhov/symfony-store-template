@@ -20,19 +20,15 @@
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon-envelope"></i></span>
+                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
                                     </div>
-                                    <label>
-                                        <input class="form-control" type="text" name="username" value="{{ last_username }}" placeholder="Телефон или email" />
-                                    </label>
+                                    <input class="form-control" type="text" name="username" value="{{ last_username }}" placeholder="Телефон или email" />
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon-lock"></i></span>
+                                        <span class="input-group-text"><i class="fa fa-lock"></i></span>
                                     </div>
-                                    <label>
-                                        <input class="form-control" type="password" name="password" placeholder="Пароль" />
-                                    </label>
+                                    <input class="form-control" type="password" name="password" placeholder="Пароль" />
                                 </div>
                                 <div class="form-group">
                                     <div class="checkbox mb-3">
