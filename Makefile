@@ -23,7 +23,7 @@ store-migrations:
 logs:
 	docker-compose logs --tail=100 -f $(c)
 
-store-init: store-composer-install store-assets-install store-migrations
+store-init: store-composer-install store-assets-install store-migrations store-fixtures
 
 store-composer-install:
 	docker-compose run --rm store-php-cli composer install
@@ -34,6 +34,9 @@ store-assets-install:
 
 store-assets-dev:
 	docker-compose run --rm store-node npm run dev
+
+store-fixtures:
+	docker-compose run --rm store-php-cli php bin/console doctrine:fixtures:load --no-interaction
 
 store-test:
 	docker-compose run --rm store-php-cli php bin/phpunit
