@@ -22,7 +22,7 @@ class Phone
         $this->value = str_replace('+', '', $value);
     }
 
-    public function getPhone(): string
+    public function getValue(): string
     {
         return $this->value;
     }

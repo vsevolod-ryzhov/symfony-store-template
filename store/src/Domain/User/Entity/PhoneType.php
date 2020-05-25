@@ -15,7 +15,7 @@ class PhoneType extends StringType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return $value instanceof Phone ? $value->getPhone() : $value;
+        return $value instanceof Phone ? $value->getValue() : $value;
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform)

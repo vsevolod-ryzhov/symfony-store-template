@@ -1,24 +1,33 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Пользователи{% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
+        <li class="breadcrumb-item active">Пользователи</li>
+    </ol>
+{% endblock %}
 
 {% block body %}
     <div class="box">
         <table class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th>Created date</th>
-                <th>Surname</th>
-                <th>Name</th>
+                <th>ID</th>
+                <th>Дата регистрации</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
                 <th>Email</th>
-                <th>Phone</th>
-                <th>Role</th>
-                <th>Status</th>
+                <th>Телефон</th>
+                <th>Роль</th>
+                <th>Статус</th>
             </tr>
             </thead>
             <tbody>
             {% for user in users %}
                 <tr>
+                    <td><a href="{{ path('admin.users.show', {'id': user.id}) }}">{{ user.id }}</a></td>
                     <td>{{ user.created_date|date('Y-m-d') }}</td>
                     <td>{{ user.name_surname }}</td>
                     <td>{{ user.name_name }}</td>

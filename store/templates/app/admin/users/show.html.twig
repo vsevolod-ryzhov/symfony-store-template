@@ -1,0 +1,54 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Пользователь{% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin.users') }}">Пользователи</a></li>
+        <li class="breadcrumb-item active">Информация о пользователе</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+
+    <div class="box">
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <th>ID</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Фамилия</th>
+                <td>{{ user.name.surname }}</td>
+            </tr>
+            <tr>
+                <th>Имя</th>
+                <td>{{ user.name.name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email ? user.email.value : '' }}</td>
+            </tr>
+            <tr>
+                <th>Телефон</th>
+                <td>{{ user.phone ? user.phone.value : '' }}</td>
+            </tr>
+            <tr>
+                <th>Дата регистрации</th>
+                <td>{{ user.createdDate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Роль</th>
+                <td>{{ user_role(user.role.name) }}</td>
+            </tr>
+            <tr>
+                <th>Статус</th>
+                <td>{{ user_status(user.status) }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

@@ -178,7 +178,7 @@ class User
         return $this->status === self::STATUS_BLOCKED;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -193,7 +193,7 @@ class User
         return $this->email;
     }
 
-    public function getPhone(): ?string
+    public function getPhone(): ?Phone
     {
         return $this->phone;
     }
