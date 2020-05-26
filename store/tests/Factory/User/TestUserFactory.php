@@ -8,6 +8,7 @@ namespace App\Tests\Factory\User;
 
 use App\Domain\User\Entity\Email;
 use App\Domain\User\Entity\Name;
+use App\Domain\User\Entity\Phone;
 use App\Domain\User\Entity\User;
 use BadMethodCallException;
 use DateTimeImmutable;
@@ -33,7 +34,7 @@ class TestUserFactory
     {
         $clone = clone $this;
         $clone->email = $email ?? new Email('mail@app.test');
-        $clone->phone = $phone ?? '+79001234567';
+        $clone->phone = $phone ?? new Phone('+79001234567');
         $clone->hash = $hash ?? 'hash';
         $clone->token = $token ?? 'token';
         return $clone;

@@ -8,6 +8,7 @@ namespace App\Tests\Unit\Domain\User\Entity\SignUp;
 
 use App\Domain\User\Entity\Email;
 use App\Domain\User\Entity\Name;
+use App\Domain\User\Entity\Phone;
 use App\Domain\User\Entity\User;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +21,7 @@ class RequestTest extends TestCase
             $date = new DateTimeImmutable(),
             $name = new Name('First', 'Last'),
             $email = new Email('test@app.test'),
-            $phone = '+79119669295',
+            $phone = new Phone('+79119669295'),
             $hash = 'hash',
             $token = 'token'
         );
