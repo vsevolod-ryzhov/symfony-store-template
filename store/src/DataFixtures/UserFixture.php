@@ -8,6 +8,7 @@ namespace App\DataFixtures;
 
 use App\Domain\User\Entity\Email;
 use App\Domain\User\Entity\Name;
+use App\Domain\User\Entity\Phone;
 use App\Domain\User\Entity\Role;
 use App\Domain\User\Entity\User;
 use App\Domain\User\Helper\PasswordHelper;
@@ -36,7 +37,7 @@ class UserFixture extends Fixture
             new DateTimeImmutable(),
             new Name('Admin', 'Admin'),
             new Email('admin@store.dev'),
-            '79210000000',
+            new Phone('+79210000000'),
             $this->passwordHelper->hash('password'),
             'token'
         );
