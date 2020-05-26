@@ -7,9 +7,8 @@ namespace App\Controller\Admin;
 
 
 use App\Domain\User\Entity\User;
-use App\Domain\User\UseCase\Create\Command;
-use App\Domain\User\UseCase\Create\Form;
-use App\Domain\User\UseCase\Create\Handler;
+use App\Domain\User\UseCase\Edit;
+use App\Domain\User\UseCase\Create;
 use App\Domain\User\UserQuery;
 use DomainException;
 use Psr\Log\LoggerInterface;
@@ -46,14 +45,14 @@ class UsersController extends AbstractController
     /**
      * @Route("/create", name=".create")
      * @param Request $request
-     * @param Handler $handler
+     * @param Create\Handler $handler
      * @return Response
      */
-    public function create(Request $request, Handler $handler): Response
+    public function create(Request $request, Create\Handler $handler): Response
     {
-        $command = new Command();
+        $command = new Create\Command();
 
-        $form = $this->createForm(Form::class, $command);
+        $form = $this->createForm(Create\Form::class, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,6 +67,36 @@ class UsersController extends AbstractController
 
         return $this->render('app/admin/users/create.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name=".edit")
+     * @param Request $request
+     * @param User $user
+     * @param Edit\Handler $handler
+     * @return Response
+     */
+    public function edit(Request $request, User $user, Edit\Handler $handler): Response
+    {
+        $command = Edit\Command::createFromUser($user);
+
+        $form = $this->createForm(Edit\Form::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $handler->handle($command);
+                return $this->redirectToRoute('admin.users.show', ['id' => $user->getId()]);
+            } catch (DomainException $e) {
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $this->addFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('app/admin/users/edit.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
         ]);
     }
 

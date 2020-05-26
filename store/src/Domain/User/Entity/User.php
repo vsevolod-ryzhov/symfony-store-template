@@ -142,6 +142,11 @@ class User
         $this->confirmToken = null;
     }
 
+    public function edit(Name $name): void
+    {
+        $this->name = $name;
+    }
+
     public function changeRole(Role $role): void
     {
         if ($this->role->isEqual($role)) {
