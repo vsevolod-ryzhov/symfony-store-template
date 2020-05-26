@@ -10,6 +10,10 @@
 {% endblock %}
 
 {% block body %}
+    <div class="mb-3">
+        <a href="{{ path('admin.users.create') }}" class="btn btn-success">Добавить пользователя</a>
+    </div>
+
     <div class="box">
         <table class="table table-bordered table-hover">
             <thead>

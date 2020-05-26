@@ -7,6 +7,7 @@ namespace App\Domain\User;
 
 
 use App\Domain\User\Entity\Email;
+use App\Domain\User\Entity\Phone;
 use App\Domain\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
@@ -58,6 +59,15 @@ class UserRepository
                 ->select('COUNT(t.id)')
                 ->andWhere('t.email = :email')
                 ->setParameter(':email', $email->getValue())
+                ->getQuery()->getSingleScalarResult() > 0;
+    }
+
+    public function hasByPhone(Phone $phone): bool
+    {
+        return $this->repository->createQueryBuilder('t')
+                ->select('COUNT(t.id)')
+                ->andWhere('t.phone = :phone')
+                ->setParameter(':phone', $phone->getValue())
                 ->getQuery()->getSingleScalarResult() > 0;
     }
 

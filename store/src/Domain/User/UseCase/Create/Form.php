@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\Domain\User\UseCase\SignUp\Request;
+namespace App\Domain\User\UseCase\Create;
 
 
 use Symfony\Component\Form\AbstractType;
@@ -16,17 +16,17 @@ class Form extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', Type\TextType::class)
-            ->add('surname', Type\TextType::class)
-            ->add('email', Type\EmailType::class)
-            ->add('phone', Type\TelType::class)
-            ->add('password', Type\PasswordType::class);
+            ->add('email', Type\EmailType::class, ['label' => 'Email'])
+            ->add('phone', Type\TelType::class, ['label' => 'Телефон'])
+            ->add('surname', Type\TextType::class, ['label' => 'Фамилия'])
+            ->add('name', Type\TextType::class, ['label' => 'Имя']);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Command::class,
+            'data_class' => Command::class
         ]);
     }
 }

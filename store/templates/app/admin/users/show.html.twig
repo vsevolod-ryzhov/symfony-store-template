@@ -1,12 +1,12 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Пользователь{% endblock %}
+{% block title %}Пользователь #{{ user.id }}{% endblock %}
 
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
         <li class="breadcrumb-item"><a href="{{ path('admin.users') }}">Пользователи</a></li>
-        <li class="breadcrumb-item active">Информация о пользователе</li>
+        <li class="breadcrumb-item active">Информация о пользователе #{{ user.id }}</li>
     </ol>
 {% endblock %}
 

@@ -92,7 +92,36 @@ class User
         $this->role = Role::user();
     }
 
-    public static function signUpByEmail(DateTimeImmutable $created_date, Name $name, Email $email, string $phone, string $hash, string $token): self
+    /**
+     * Create user from admin
+     * @param DateTimeImmutable $date
+     * @param Name $name
+     * @param Email $email
+     * @param Phone $phone
+     * @param string $hash
+     * @return static
+     */
+    public static function create(DateTimeImmutable $date, Name $name, Email $email, Phone $phone, string $hash): self
+    {
+        $user = new self($date, $name);
+        $user->email = $email;
+        $user->phone = $phone;
+        $user->passwordHash = $hash;
+        $user->status = self::STATUS_ACTIVE;
+        return $user;
+    }
+
+    /**
+     * Signup via fronted form
+     * @param DateTimeImmutable $created_date
+     * @param Name $name
+     * @param Email $email
+     * @param string $phone
+     * @param string $hash
+     * @param string $token
+     * @return static
+     */
+    public static function signUpByEmail(DateTimeImmutable $created_date, Name $name, Email $email, Phone $phone, string $hash, string $token): self
     {
         $user = new self($created_date, $name);
         $user->email = $email;

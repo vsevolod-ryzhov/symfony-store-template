@@ -36,7 +36,7 @@ class UserFixture extends Fixture
             new DateTimeImmutable(),
             new Name('Admin', 'Admin'),
             new Email('admin@store.dev'),
-            '+79210000000',
+            '79210000000',
             $this->passwordHelper->hash('password'),
             'token'
         );
