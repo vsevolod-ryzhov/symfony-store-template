@@ -1,5 +1,5 @@
 {% if role == 'ROLE_ADMIN' %}
-    <span class="badge badge-success">Admin</span>
+    <span class="badge badge-success">{{ labels['ROLE_ADMIN'] }}</span>
 {% elseif role == 'ROLE_USER' %}
-    <span class="badge badge-primary">User</span>
+    <span class="badge badge-primary">{{ labels['ROLE_USER'] }}</span>
 {% endif %}

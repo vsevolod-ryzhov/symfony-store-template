@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Widget\User;
 
 
+use App\Domain\User\Helper\RoleHelper;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -21,8 +22,10 @@ class RoleWidget extends AbstractExtension
 
     public function role(Environment $twig, string $role): string
     {
+        $labels = RoleHelper::rolesList();
         return $twig->render('widget/users/role.html.twig', [
-            'role' => $role
+            'role' => $role,
+            'labels' => $labels
         ]);
     }
 }
