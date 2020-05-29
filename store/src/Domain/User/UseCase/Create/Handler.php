@@ -48,7 +48,7 @@ class Handler
         if ($this->repository->hasByEmail($email)) {
             throw new DomainException(self::USER_EXISTS_MESSAGE);
         }
-        $phone = new Phone($command->email);
+        $phone = new Phone($command->phone);
         if ($this->repository->hasByPhone($phone)) {
             throw new DomainException(self::USER_EXISTS_MESSAGE);
         }
