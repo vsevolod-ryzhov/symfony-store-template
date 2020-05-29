@@ -11,6 +11,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use UnexpectedValueException;
+use function in_array;
 
 class UserQuery
 {
@@ -73,7 +75,7 @@ class UserQuery
                 ->execute()->fetchColumn(0) > 0;
     }
 
-    public function all(Filter\UserIndex\Filter $filter, int $page, int $size): PaginationInterface
+    public function all(Filter\UserIndex\Filter $filter, int $page, int $size, string $sort, string $direction = 'desc'): PaginationInterface
     {
         $query = $this->connection->createQueryBuilder()
             ->select(
@@ -88,6 +90,16 @@ class UserQuery
             )
             ->from('user_users')
             ->orderBy('created_date', 'desc');
+
+        if ($filter->id) {
+            $query->andWhere('id = :id');
+            $query->setParameter(':id', $filter->id);
+        }
+
+        if ($filter->created_date) {
+            $query->andWhere('DATE(created_date) = :created_date');
+            $query->setParameter(':created_date', date('Y-m-d', strtotime($filter->created_date)));
+        }
 
         if ($filter->email) {
             $query->andWhere($query->expr()->like('LOWER(email)', ':email'));
@@ -118,6 +130,12 @@ class UserQuery
             $query->andWhere('role = :role');
             $query->setParameter(':role', $filter->role);
         }
+
+        if (!in_array($sort, ['id', 'created_date', 'email', 'phone', 'surname', 'name', 'role', 'status'], true)) {
+            throw new UnexpectedValueException('Невозможно сортировать по полю ' . $sort);
+        }
+
+        $query->orderBy($sort, $direction === 'desc' ? 'desc' : 'asc');
 
         return $this->paginator->paginate($query, $page, $size);
     }

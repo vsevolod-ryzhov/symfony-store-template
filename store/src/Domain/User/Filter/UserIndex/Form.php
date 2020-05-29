@@ -18,6 +18,20 @@ class Form extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('id', Type\TextType::class, ['required' => false, 'attr' => [
+                'placeholder' => 'ID',
+                'onchange' => 'this.form.submit()'
+            ]])
+            ->add('created_date', Type\DateType::class,
+                [
+                    'required' => false,
+                    'widget' => 'single_text',
+                    'input' => 'string',
+                    'attr' => [
+                        'placeholder' => 'Дата регистрации',
+                        'onchange' => 'this.form.submit()'
+                    ]
+                ])
             ->add('email', Type\TextType::class, ['required' => false, 'attr' => [
                 'placeholder' => 'Email',
                 'onchange' => 'this.form.submit()',

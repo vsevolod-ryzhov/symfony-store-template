@@ -19,14 +19,14 @@
             <thead>
             {{ form_start(form) }}
                 <tr>
-                    <th>ID</th>
-                    <th>Дата регистрации</th>
-                    <th>Фамилия {{ form_widget(form.surname) }}</th>
-                    <th>Имя {{ form_widget(form.name) }}</th>
-                    <th>Email {{ form_widget(form.email) }}</th>
-                    <th>Телефон {{ form_widget(form.phone) }}</th>
-                    <th>Роль {{ form_widget(form.role) }}</th>
-                    <th>Статус {{ form_widget(form.status) }}</th>
+                    <th>{{ knp_pagination_sortable(users, 'ID', 'id') }} {{ form_widget(form.id) }}</th>
+                    <th>{{ knp_pagination_sortable(users, 'Дата регистрации', 'created_date') }} {{ form_widget(form.created_date) }}</th>
+                    <th>{{ knp_pagination_sortable(users, 'Фамилия', 'surname') }} {{ form_widget(form.surname) }}</th>
+                    <th>{{ knp_pagination_sortable(users, 'Имя', 'name') }} {{ form_widget(form.name) }}</th>
+                    <th>{{ knp_pagination_sortable(users, 'Email', 'email') }} {{ form_widget(form.email) }}</th>
+                    <th>{{ knp_pagination_sortable(users, 'Телефон', 'phone') }} {{ form_widget(form.phone) }}</th>
+                    <th>{{ knp_pagination_sortable(users, 'Роль', 'role') }} {{ form_widget(form.role) }}</th>
+                    <th>{{ knp_pagination_sortable(users, 'Статус', 'status') }} {{ form_widget(form.status) }}</th>
                 </tr>
             {{ form_end(form) }}
             </thead>

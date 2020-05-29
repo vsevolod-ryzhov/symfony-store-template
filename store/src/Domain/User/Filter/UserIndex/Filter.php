@@ -8,6 +8,8 @@ namespace App\Domain\User\Filter\UserIndex;
 
 class Filter
 {
+    public $id;
+    public $created_date;
     public $email;
     public $phone;
     public $surname;
