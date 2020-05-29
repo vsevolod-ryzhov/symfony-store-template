@@ -8,6 +8,6 @@ All logic provided in **store\src\Domain**
 
 Nearest development plans:
 
-    1. CRUD for users in admin section.
-    2. Some template for admin section.
-    3. src\Domain\Product\*
+    - [ ] CRUD for users in admin section.
+    - [ ] Some template for admin section.
+    - [ ] src\Domain\Product\*
