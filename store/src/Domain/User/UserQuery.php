@@ -9,14 +9,21 @@ namespace App\Domain\User;
 use App\Domain\User\View\AuthView;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class UserQuery
 {
     private $connection;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, PaginatorInterface $paginator)
     {
         $this->connection = $connection;
+        $this->paginator = $paginator;
     }
 
     public function findEmailBySignUpConfirmToken(string $token): ?string
@@ -66,9 +73,9 @@ class UserQuery
                 ->execute()->fetchColumn(0) > 0;
     }
 
-    public function all(Filter\UserIndex\Filter $filter): array
+    public function all(Filter\UserIndex\Filter $filter, int $page, int $size): PaginationInterface
     {
-        $stmt = $this->connection->createQueryBuilder()
+        $query = $this->connection->createQueryBuilder()
             ->select(
                 'id',
                 'created_date',
@@ -83,35 +90,35 @@ class UserQuery
             ->orderBy('created_date', 'desc');
 
         if ($filter->email) {
-            $stmt->andWhere($stmt->expr()->like('LOWER(email)', ':email'));
-            $stmt->setParameter(':email', '%' . mb_strtolower($filter->email) . '%');
+            $query->andWhere($query->expr()->like('LOWER(email)', ':email'));
+            $query->setParameter(':email', '%' . mb_strtolower($filter->email) . '%');
         }
 
         if ($filter->phone) {
-            $stmt->andWhere('phone = :phone');
-            $stmt->setParameter(':phone', $filter->phone);
+            $query->andWhere('phone = :phone');
+            $query->setParameter(':phone', $filter->phone);
         }
 
         if ($filter->surname) {
-            $stmt->andWhere($stmt->expr()->like('LOWER(name_surname)', ':surname'));
-            $stmt->setParameter(':surname', '%' . mb_strtolower($filter->surname) . '%');
+            $query->andWhere($query->expr()->like('LOWER(name_surname)', ':surname'));
+            $query->setParameter(':surname', '%' . mb_strtolower($filter->surname) . '%');
         }
 
         if ($filter->name) {
-            $stmt->andWhere($stmt->expr()->like('LOWER(name_ame)', ':name'));
-            $stmt->setParameter(':name', '%' . mb_strtolower($filter->name) . '%');
+            $query->andWhere($query->expr()->like('LOWER(name_ame)', ':name'));
+            $query->setParameter(':name', '%' . mb_strtolower($filter->name) . '%');
         }
 
         if ($filter->status) {
-            $stmt->andWhere('status = :status');
-            $stmt->setParameter(':status', $filter->status);
+            $query->andWhere('status = :status');
+            $query->setParameter(':status', $filter->status);
         }
 
         if ($filter->role) {
-            $stmt->andWhere('role = :role');
-            $stmt->setParameter(':role', $filter->role);
+            $query->andWhere('role = :role');
+            $query->setParameter(':role', $filter->role);
         }
 
-        return $stmt->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $this->paginator->paginate($query, $page, $size);
     }
 }

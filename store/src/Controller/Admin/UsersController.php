@@ -44,7 +44,7 @@ class UsersController extends AbstractController
 
         $form = $this->createForm(UserIndex\Form::class, $filter);
         $form->handleRequest($request);
-        $users = $users->all($filter);
+        $users = $users->all($filter, $request->query->getInt('page', 1), self::INDEX_ITEMS_COUNT);
 
         return $this->render('app/admin/users/index.html.twig', [
             'users' => $users,
