@@ -17,16 +17,18 @@
     <div class="box">
         <table class="table table-bordered table-hover">
             <thead>
-            <tr>
-                <th>ID</th>
-                <th>Дата регистрации</th>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Email</th>
-                <th>Телефон</th>
-                <th>Роль</th>
-                <th>Статус</th>
-            </tr>
+            {{ form_start(form) }}
+                <tr>
+                    <th>ID</th>
+                    <th>Дата регистрации</th>
+                    <th>Фамилия {{ form_widget(form.surname) }}</th>
+                    <th>Имя {{ form_widget(form.name) }}</th>
+                    <th>Email {{ form_widget(form.email) }}</th>
+                    <th>Телефон {{ form_widget(form.phone) }}</th>
+                    <th>Роль {{ form_widget(form.role) }}</th>
+                    <th>Статус {{ form_widget(form.status) }}</th>
+                </tr>
+            {{ form_end(form) }}
             </thead>
             <tbody>
             {% for user in users %}

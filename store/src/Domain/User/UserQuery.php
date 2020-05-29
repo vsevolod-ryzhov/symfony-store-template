@@ -66,7 +66,7 @@ class UserQuery
                 ->execute()->fetchColumn(0) > 0;
     }
 
-    public function all(): array
+    public function all(Filter\UserIndex\Filter $filter): array
     {
         $stmt = $this->connection->createQueryBuilder()
             ->select(
@@ -80,9 +80,38 @@ class UserQuery
                 'status'
             )
             ->from('user_users')
-            ->orderBy('created_date', 'desc')
-            ->execute();
+            ->orderBy('created_date', 'desc');
 
-        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        if ($filter->email) {
+            $stmt->andWhere($stmt->expr()->like('LOWER(email)', ':email'));
+            $stmt->setParameter(':email', '%' . mb_strtolower($filter->email) . '%');
+        }
+
+        if ($filter->phone) {
+            $stmt->andWhere('phone = :phone');
+            $stmt->setParameter(':phone', $filter->phone);
+        }
+
+        if ($filter->surname) {
+            $stmt->andWhere($stmt->expr()->like('LOWER(name_surname)', ':surname'));
+            $stmt->setParameter(':surname', '%' . mb_strtolower($filter->surname) . '%');
+        }
+
+        if ($filter->name) {
+            $stmt->andWhere($stmt->expr()->like('LOWER(name_ame)', ':name'));
+            $stmt->setParameter(':name', '%' . mb_strtolower($filter->name) . '%');
+        }
+
+        if ($filter->status) {
+            $stmt->andWhere('status = :status');
+            $stmt->setParameter(':status', $filter->status);
+        }
+
+        if ($filter->role) {
+            $stmt->andWhere('role = :role');
+            $stmt->setParameter(':role', $filter->role);
+        }
+
+        return $stmt->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 }

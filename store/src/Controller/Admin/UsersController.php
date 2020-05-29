@@ -7,6 +7,7 @@ namespace App\Controller\Admin;
 
 
 use App\Domain\User\Entity\User;
+use App\Domain\User\Filter\UserIndex;
 use App\Domain\User\UseCase\Edit;
 use App\Domain\User\UseCase\Create;
 use App\Domain\User\UserQuery;
@@ -22,6 +23,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UsersController extends AbstractController
 {
+    private const INDEX_ITEMS_COUNT = 15;
+
     private $logger;
 
     public function __construct(LoggerInterface $logger)
@@ -37,9 +40,16 @@ class UsersController extends AbstractController
      */
     public function index(Request $request, UserQuery $users): Response
     {
-        $users = $users->all();
+        $filter = new UserIndex\Filter();
 
-        return $this->render('app/admin/users/index.html.twig', compact('users'));
+        $form = $this->createForm(UserIndex\Form::class, $filter);
+        $form->handleRequest($request);
+        $users = $users->all($filter);
+
+        return $this->render('app/admin/users/index.html.twig', [
+            'users' => $users,
+            'form' => $form->createView()
+        ]);
     }
 
     /**
