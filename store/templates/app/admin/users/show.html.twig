@@ -12,8 +12,23 @@
 
 {% block body %}
 
-    <div class="mb-3">
-        <a href="{{ path('admin.users.edit', {'id': user.id}) }}" class="btn btn-primary">Редактировать</a>
+    <div class="row mb-3">
+        <div class="pull-left"><a href="{{ path('admin.users.edit', {'id': user.id}) }}" class="btn btn-primary">Редактировать</a></div>
+
+        <div class="pull-left ml-3">
+            {% if user.wait or user.blocked %}
+                <form action="{{ path('admin.users.status', {'id': user.id, 'status': 'active'}) }}" method="post" onsubmit="return confirm('Поменять статус?')">
+                    <input type="hidden" name="token" value="{{ csrf_token('status') }}" />
+                    <button type="submit" class="btn btn-success">Активировать</button>
+                </form>
+            {% endif %}
+            {% if user.active and user.id != app.user.id %}
+                <form action="{{ path('admin.users.status', {'id': user.id, 'status': 'blocked'}) }}" method="post" onsubmit="return confirm('Поменять статус?')">
+                    <input type="hidden" name="token" value="{{ csrf_token('status') }}" />
+                    <button type="submit" class="btn btn-danger">Заблокировать</button>
+                </form>
+            {% endif %}
+        </div>
     </div>
 
     <div class="box">

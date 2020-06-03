@@ -171,6 +171,14 @@ class User
         $this->status = self::STATUS_BLOCKED;
     }
 
+    public function setStatus(string $status): void
+    {
+        if ($this->status === $status) {
+            throw new DomainException('У пользователя уже установлен этот статус.');
+        }
+        $this->status = $status;
+    }
+
     public function requestPasswordReset(ResetToken $token, DateTimeImmutable $date): void
     {
         if (!$this->isActive()) {

@@ -10,6 +10,7 @@ use App\Domain\User\Entity\User;
 use App\Domain\User\Filter\UserIndex;
 use App\Domain\User\UseCase\Edit;
 use App\Domain\User\UseCase\Create;
+use App\Domain\User\UseCase\StatusChange;
 use App\Domain\User\UserQuery;
 use DomainException;
 use Psr\Log\LoggerInterface;
@@ -114,6 +115,32 @@ class UsersController extends AbstractController
             'form' => $form->createView(),
             'user' => $user
         ]);
+    }
+
+    /**
+     * @Route("/status/{id}/{status}", name=".status", methods={"POST"})
+     * @param User $user
+     * @param string $status
+     * @param Request $request
+     * @param StatusChange\Handler $handler
+     * @return Response
+     */
+    public function status(User $user, string $status, Request $request, StatusChange\Handler $handler): Response
+    {
+        if (!$this->isCsrfTokenValid('status', $request->request->get('token'))) {
+            return $this->redirectToRoute('admin.users.show', ['id' => $user->getId()]);
+        }
+
+        $command = new StatusChange\Command($user->getId(), $status);
+
+        try {
+            $handler->handle($command);
+        } catch (DomainException $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('admin.users.show', ['id' => $user->getId()]);
     }
 
     /**

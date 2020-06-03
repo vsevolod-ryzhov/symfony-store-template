@@ -33,6 +33,11 @@ class UserIdentity implements UserInterface, EquatableInterface
         $this->status = $status;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     /**
      * @inheritDoc
      */
