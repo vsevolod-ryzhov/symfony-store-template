@@ -26,8 +26,8 @@ class RequestTest extends TestCase
             $token = 'token'
         );
 
-        self::assertTrue($user->isWait());
-        self::assertFalse($user->isActive());
+        self::assertTrue($user->getStatus()->isWait());
+        self::assertFalse($user->getStatus()->isActive());
 
         self::assertEquals($date, $user->getCreatedDate());
         self::assertEquals($name, $user->getName());

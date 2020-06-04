@@ -16,13 +16,13 @@
         <div class="pull-left"><a href="{{ path('admin.users.edit', {'id': user.id}) }}" class="btn btn-primary">Редактировать</a></div>
 
         <div class="pull-left ml-3">
-            {% if user.wait or user.blocked %}
+            {% if user.status.isWait or user.status.isBlocked %}
                 <form action="{{ path('admin.users.status', {'id': user.id, 'status': status_active}) }}" method="post" onsubmit="return confirm('Поменять статус?')">
                     <input type="hidden" name="token" value="{{ csrf_token('status') }}" />
                     <button type="submit" class="btn btn-success">Активировать</button>
                 </form>
             {% endif %}
-            {% if user.active and user.id != app.user.id %}
+            {% if user.status.isActive and user.id != app.user.id %}
                 <form action="{{ path('admin.users.status', {'id': user.id, 'status': status_blocked}) }}" method="post" onsubmit="return confirm('Поменять статус?')">
                     <input type="hidden" name="token" value="{{ csrf_token('status') }}" />
                     <button type="submit" class="btn btn-danger">Заблокировать</button>
@@ -64,7 +64,7 @@
             </tr>
             <tr>
                 <th>Статус</th>
-                <td>{{ user_status(user.status) }}</td>
+                <td>{{ user_status(user.status.value) }}</td>
             </tr>
             </tbody>
         </table>

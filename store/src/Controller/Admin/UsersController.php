@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 
+use App\Domain\User\Entity\Status;
 use App\Domain\User\Entity\User;
 use App\Domain\User\Filter\UserIndex;
 use App\Domain\User\UseCase\Edit;
@@ -24,6 +25,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UsersController extends AbstractController
 {
+    private const ADMIN_USERS_SHOW = 'admin.users.show';
+    private const ERROR_FLASH_KEY = 'error';
+
     private const INDEX_ITEMS_COUNT = 15;
 
     private $logger;
@@ -45,7 +49,7 @@ class UsersController extends AbstractController
 
         $form = $this->createForm(UserIndex\Form::class, $filter);
         $form->handleRequest($request);
-        $users = $users->all(
+        $user_list = $users->all(
             $filter,
             $request->query->getInt('page', 1),
             self::INDEX_ITEMS_COUNT,
@@ -54,7 +58,7 @@ class UsersController extends AbstractController
         );
 
         return $this->render('app/admin/users/index.html.twig', [
-            'users' => $users,
+            'users' => $user_list,
             'form' => $form->createView()
         ]);
     }
@@ -78,7 +82,7 @@ class UsersController extends AbstractController
                 return $this->redirectToRoute('admin.users');
             } catch (DomainException $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $this->addFlash('error', $e->getMessage());
+                $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
             }
         }
 
@@ -104,10 +108,10 @@ class UsersController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $handler->handle($command);
-                return $this->redirectToRoute('admin.users.show', ['id' => $user->getId()]);
+                return $this->redirectToRoute(self::ADMIN_USERS_SHOW, ['id' => $user->getId()]);
             } catch (DomainException $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $this->addFlash('error', $e->getMessage());
+                $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
             }
         }
 
@@ -128,7 +132,7 @@ class UsersController extends AbstractController
     public function status(User $user, string $status, Request $request, StatusChange\Handler $handler): Response
     {
         if (!$this->isCsrfTokenValid('status', $request->request->get('token'))) {
-            return $this->redirectToRoute('admin.users.show', ['id' => $user->getId()]);
+            return $this->redirectToRoute(self::ADMIN_USERS_SHOW, ['id' => $user->getId()]);
         }
 
         $command = new StatusChange\Command($user->getId(), $status);
@@ -137,10 +141,10 @@ class UsersController extends AbstractController
             $handler->handle($command);
         } catch (DomainException $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
-            $this->addFlash('error', $e->getMessage());
+            $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
         }
 
-        return $this->redirectToRoute('admin.users.show', ['id' => $user->getId()]);
+        return $this->redirectToRoute(self::ADMIN_USERS_SHOW, ['id' => $user->getId()]);
     }
 
     /**
@@ -152,8 +156,8 @@ class UsersController extends AbstractController
     {
         return $this->render('app/admin/users/show.html.twig', [
             'user' => $user,
-            'status_active' => User::STATUS_ACTIVE,
-            'status_blocked' => User::STATUS_BLOCKED
+            'status_active' => Status::STATUS_ACTIVE,
+            'status_blocked' => Status::STATUS_BLOCKED
         ]);
     }
 }

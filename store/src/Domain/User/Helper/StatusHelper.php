@@ -6,16 +6,16 @@ declare(strict_types=1);
 namespace App\Domain\User\Helper;
 
 
-use App\Domain\User\Entity\User;
+use App\Domain\User\Entity\Status;
 
-class UserHelper
+class StatusHelper
 {
     public static function statusList(): array
     {
         return [
-            User::STATUS_WAIT => 'Ожидание',
-            User::STATUS_ACTIVE => 'Активный',
-            User::STATUS_BLOCKED => 'Заблокирован'
+            Status::STATUS_WAIT => 'Ожидание',
+            Status::STATUS_ACTIVE => 'Активный',
+            Status::STATUS_BLOCKED => 'Заблокирован'
         ];
     }
 

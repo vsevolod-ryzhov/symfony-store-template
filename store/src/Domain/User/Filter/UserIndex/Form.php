@@ -7,7 +7,7 @@ namespace App\Domain\User\Filter\UserIndex;
 
 
 use App\Domain\User\Helper\RoleHelper;
-use App\Domain\User\Helper\UserHelper;
+use App\Domain\User\Helper\StatusHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type;
@@ -50,7 +50,7 @@ class Form extends AbstractType
             ]])
             ->add('status', Type\ChoiceType::class,
                 [
-                    'choices' => array_flip(UserHelper::statusList()),
+                    'choices' => array_flip(StatusHelper::statusList()),
                     'required' => false,
                     'placeholder' => 'Доступные статусы',
                     'attr' => ['onchange' => 'this.form.submit()']

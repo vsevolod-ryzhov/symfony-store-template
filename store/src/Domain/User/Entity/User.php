@@ -20,10 +20,6 @@ use DomainException;
  */
 class User
 {
-    public const STATUS_WAIT = 'wait';
-    public const STATUS_ACTIVE = 'active';
-    public const STATUS_BLOCKED = 'blocked';
-
     /**
      * @ORM\Column
      * @ORM\Id
@@ -74,8 +70,8 @@ class User
     private $resetToken;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=16)
+     * @var Status
+     * @ORM\Column(type="user_user_status", length=16)
      */
     private $status;
 
@@ -107,7 +103,7 @@ class User
         $user->email = $email;
         $user->phone = $phone;
         $user->passwordHash = $hash;
-        $user->status = self::STATUS_ACTIVE;
+        $user->status = Status::active();
         return $user;
     }
 
@@ -128,17 +124,17 @@ class User
         $user->phone = $phone;
         $user->passwordHash = $hash;
         $user->confirmToken = $token;
-        $user->status = self::STATUS_WAIT;
+        $user->status = Status::wait();
         return $user;
     }
 
     public function confirmSignUp(): void
     {
-        if (!$this->isWait()) {
+        if (!$this->status->isWait()) {
             throw new DomainException('Пользователь уже подтвержден.');
         }
 
-        $this->status = self::STATUS_ACTIVE;
+        $this->status = Status::active();
         $this->confirmToken = null;
     }
 
@@ -155,9 +151,9 @@ class User
         $this->role = $role;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(Status $status): void
     {
-        if ($this->status === $status) {
+        if ($this->status->isEqual($status)) {
             throw new DomainException('У пользователя уже установлен этот статус.');
         }
         $this->status = $status;
@@ -165,7 +161,7 @@ class User
 
     public function requestPasswordReset(ResetToken $token, DateTimeImmutable $date): void
     {
-        if (!$this->isActive()) {
+        if (!$this->status->isActive()) {
             throw new DomainException('Пользователь не активирован.');
         }
         if (!$this->email) {
@@ -187,21 +183,6 @@ class User
         }
         $this->passwordHash = $hash;
         $this->resetToken = null;
-    }
-
-    public function isWait(): bool
-    {
-        return $this->status === self::STATUS_WAIT;
-    }
-
-    public function isActive(): bool
-    {
-        return $this->status === self::STATUS_ACTIVE;
-    }
-
-    public function isBlocked(): bool
-    {
-        return $this->status === self::STATUS_BLOCKED;
     }
 
     public function getId(): string
@@ -249,7 +230,7 @@ class User
         return $this->role;
     }
 
-    public function getStatus(): string
+    public function getStatus(): Status
     {
         return $this->status;
     }
