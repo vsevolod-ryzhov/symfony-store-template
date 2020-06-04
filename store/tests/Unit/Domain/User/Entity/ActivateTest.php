@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Domain\User\Entity;
 
 
+use App\Domain\User\Entity\User;
 use App\Tests\Factory\User\TestUserFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -15,9 +16,9 @@ class ActivateTest extends TestCase
     {
         $user = (new TestUserFactory())->viaEmail()->build();
 
-        $user->block();
+        $user->setStatus(User::STATUS_BLOCKED);
 
-        $user->activate();
+        $user->setStatus(User::STATUS_ACTIVE);
 
         self::assertTrue($user->isActive());
         self::assertFalse($user->isBlocked());
@@ -27,9 +28,9 @@ class ActivateTest extends TestCase
     {
         $user = (new TestUserFactory())->viaEmail()->build();
 
-        $user->activate();
+        $user->setStatus(User::STATUS_ACTIVE);
 
-        $this->expectExceptionMessage('Пользователь уже активирован.');
-        $user->activate();
+        $this->expectExceptionMessage('У пользователя уже установлен этот статус.');
+        $user->setStatus(User::STATUS_ACTIVE);
     }
 }

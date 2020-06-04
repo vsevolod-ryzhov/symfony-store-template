@@ -150,6 +150,10 @@ class UsersController extends AbstractController
      */
     public function show(User $user): Response
     {
-        return $this->render('app/admin/users/show.html.twig', compact('user'));
+        return $this->render('app/admin/users/show.html.twig', [
+            'user' => $user,
+            'status_active' => User::STATUS_ACTIVE,
+            'status_blocked' => User::STATUS_BLOCKED
+        ]);
     }
 }

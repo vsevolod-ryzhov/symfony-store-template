@@ -155,22 +155,6 @@ class User
         $this->role = $role;
     }
 
-    public function activate(): void
-    {
-        if ($this->isActive()) {
-            throw new DomainException('Пользователь уже активирован.');
-        }
-        $this->status = self::STATUS_ACTIVE;
-    }
-
-    public function block(): void
-    {
-        if ($this->isBlocked()) {
-            throw new DomainException('Пользователь уже заблокирован.');
-        }
-        $this->status = self::STATUS_BLOCKED;
-    }
-
     public function setStatus(string $status): void
     {
         if ($this->status === $status) {
