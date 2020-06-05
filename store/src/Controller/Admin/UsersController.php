@@ -12,10 +12,12 @@ use App\Domain\User\Filter\UserIndex;
 use App\Domain\User\UseCase\Edit;
 use App\Domain\User\UseCase\Create;
 use App\Domain\User\UseCase\StatusChange;
+use App\Domain\User\UseCase\RoleChange;
 use App\Domain\User\UserQuery;
 use DomainException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -145,6 +147,52 @@ class UsersController extends AbstractController
         }
 
         return $this->redirectToRoute(self::ADMIN_USERS_SHOW, ['id' => $user->getId()]);
+    }
+
+    /**
+     * @Route("/role/{id}", name=".role")
+     * @param User $user
+     * @param Request $request
+     * @param RoleChange\Handler $handler
+     * @return Response
+     */
+    public function role(User $user, Request $request, RoleChange\Handler $handler): Response
+    {
+        $this->checkRoleChangeAvailability($user);
+
+        $command = RoleChange\Command::fromUser($user);
+
+        $form = $this->createForm(RoleChange\Form::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $handler->handle($command);
+                return $this->redirectToRoute(self::ADMIN_USERS_SHOW, ['id' => $user->getId()]);
+            } catch (DomainException $e) {
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
+            }
+        }
+
+        return $this->render('app/admin/users/role.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @see role
+     * @param User $user
+     * @return RedirectResponse|null
+     */
+    private function checkRoleChangeAvailability(User $user): ?RedirectResponse
+    {
+        if ($this->getUser() && $user->getId() === $this->getUser()->getId()) {
+            $this->addFlash(self::ERROR_FLASH_KEY, 'Невозможно изменить роль для своего аккаунта.');
+            return $this->redirectToRoute(self::ADMIN_USERS_SHOW, ['id' => $user->getId()]);
+        }
+        return null;
     }
 
     /**

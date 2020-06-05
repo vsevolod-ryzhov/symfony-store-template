@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Security;
 
 
+use App\Domain\User\Entity\Status;
 use App\Domain\User\Entity\User;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -93,6 +94,6 @@ class UserIdentity implements UserInterface, EquatableInterface
 
     public function isActive(): bool
     {
-        return $this->status === User::STATUS_ACTIVE;
+        return $this->status === Status::STATUS_ACTIVE;
     }
 }

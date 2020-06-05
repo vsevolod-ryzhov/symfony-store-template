@@ -14,7 +14,11 @@
 
     <div class="row mb-3">
         <div class="pull-left"><a href="{{ path('admin.users.edit', {'id': user.id}) }}" class="btn btn-primary">Редактировать</a></div>
-
+        <div class="pull-left ml-3">
+            {% if user.id != app.user.id %}
+                <a href="{{ path('admin.users.role', {'id': user.id}) }}" class="btn btn-success">Изменить роль</a>
+            {% endif %}
+        </div>
         <div class="pull-left ml-3">
             {% if user.status.isWait or user.status.isBlocked %}
                 <form action="{{ path('admin.users.status', {'id': user.id, 'status': status_active}) }}" method="post" onsubmit="return confirm('Поменять статус?')">
