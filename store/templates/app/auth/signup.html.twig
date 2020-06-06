@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'centered.html.twig' %}
 
 {% block title %}Регистрация{% endblock %}
 
@@ -18,35 +18,35 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-user"></i></span>
                                 </div>
-                                {{ form_widget(form.name, {'attr': {'placeholder': 'Имя'}}) }}
+                                {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Имя'}}) }}
                                 {{ form_errors(form.name) }}
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-user"></i></span>
                                 </div>
-                                {{ form_widget(form.surname, {'attr': {'placeholder': 'Фамилия'}}) }}
+                                {{ form_widget(form.surname, {'attr': {'class': 'form-control', 'placeholder': 'Фамилия'}}) }}
                                 {{ form_errors(form.surname) }}
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                 </div>
-                                {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
                                 {{ form_errors(form.email) }}
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                 </div>
-                                {{ form_widget(form.phone, {'attr': {'placeholder': 'Телефон'}}) }}
+                                {{ form_widget(form.phone, {'attr': {'class': 'form-control', 'placeholder': 'Телефон'}}) }}
                                 {{ form_errors(form.phone) }}
                             </div>
                             <div class="input-group mb-4">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-lock"></i></span>
                                 </div>
-                                {{ form_widget(form.password, {'attr': {'placeholder': 'Пароль'}}) }}
+                                {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Пароль'}}) }}
                                 {{ form_errors(form.password) }}
                             </div>
 

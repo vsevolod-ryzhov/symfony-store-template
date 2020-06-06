@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'centered.html.twig' %}
 
 {% block title %}Сброс пароля{% endblock %}
 
@@ -6,23 +6,27 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                {% include 'parts/messages.html.twig' %}
+                <div class="card mx-4">
+                    <div class="card-body p-4">
+                        {% include 'parts/messages.html.twig' %}
 
-                <h1>Сброс пароля</h1>
+                        <h1>Сброс пароля</h1>
 
-                {{ form_start(form) }}
+                        {{ form_start(form) }}
 
-                <div class="input-group mb-4">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="icon-lock"></i></span>
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="icon-lock"></i></span>
+                            </div>
+                            {{ form_widget(form.password, {'attr': {'placeholder': 'Password'}}) }}
+                            {{ form_errors(form.password) }}
+                        </div>
+
+                        <button type="submit" class="btn btn-block btn-success">Установить пароль</button>
+
+                        {{ form_end(form) }}
                     </div>
-                    {{ form_widget(form.password, {'attr': {'placeholder': 'Password'}}) }}
-                    {{ form_errors(form.password) }}
                 </div>
-
-                <button type="submit" class="btn btn-block btn-success">Установить пароль</button>
-
-                {{ form_end(form) }}
             </div>
         </div>
     </div>
