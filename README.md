@@ -9,5 +9,5 @@ All logic provided in **store\src\Domain**
 Nearest development plans
 
 - [x] CRUD for users in admin section
-- [ ] Some template for admin section
+- [x] Some template for admin section
 - [ ] src\Domain\Product\*

@@ -3,7 +3,7 @@
 {% block title %}Пользователь #{{ user.id }}{% endblock %}
 
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
+    <ol class="breadcrumb border-0 m-0">
         <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
         <li class="breadcrumb-item"><a href="{{ path('admin.users') }}">Пользователи</a></li>
         <li class="breadcrumb-item active">Информация о пользователе #{{ user.id }}</li>
@@ -12,14 +12,12 @@
 
 {% block body %}
 
-    <div class="row mb-3">
-        <div class="pull-left"><a href="{{ path('admin.users.edit', {'id': user.id}) }}" class="btn btn-primary">Редактировать</a></div>
-        <div class="pull-left ml-3">
-            {% if user.id != app.user.id %}
-                <a href="{{ path('admin.users.role', {'id': user.id}) }}" class="btn btn-success">Изменить роль</a>
-            {% endif %}
-        </div>
-        <div class="pull-left ml-3">
+    <div class="actions">
+        <a href="{{ path('admin.users.edit', {'id': user.id}) }}" class="btn btn-primary">Редактировать</a>
+        {% if user.id != app.user.id %}
+            <a href="{{ path('admin.users.role', {'id': user.id}) }}" class="btn btn-success">Изменить роль</a>
+        {% endif %}
+        <div class="d-inline-block">
             {% if user.status.isWait or user.status.isBlocked %}
                 <form action="{{ path('admin.users.status', {'id': user.id, 'status': status_active}) }}" method="post" onsubmit="return confirm('Поменять статус?')">
                     <input type="hidden" name="token" value="{{ csrf_token('status') }}" />
@@ -35,7 +33,7 @@
         </div>
     </div>
 
-    <div class="box">
+    <div class="box mt-3">
         <table class="table table-bordered">
             <tbody>
             <tr>

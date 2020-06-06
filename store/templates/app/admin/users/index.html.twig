@@ -3,7 +3,7 @@
 {% block title %}Пользователи{% endblock %}
 
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
+    <ol class="breadcrumb border-0 m-0">
         <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
         <li class="breadcrumb-item active">Пользователи</li>
     </ol>
@@ -14,39 +14,41 @@
         <a href="{{ path('admin.users.create') }}" class="btn btn-success">Добавить пользователя</a>
     </div>
 
-    <div class="box">
-        <table class="table table-bordered table-hover">
-            <thead>
-            {{ form_start(form) }}
-                <tr>
-                    <th>{{ knp_pagination_sortable(users, 'ID', 'id') }} {{ form_widget(form.id) }}</th>
-                    <th>{{ knp_pagination_sortable(users, 'Дата регистрации', 'created_date') }} {{ form_widget(form.created_date) }}</th>
-                    <th>{{ knp_pagination_sortable(users, 'Фамилия', 'surname') }} {{ form_widget(form.surname) }}</th>
-                    <th>{{ knp_pagination_sortable(users, 'Имя', 'name') }} {{ form_widget(form.name) }}</th>
-                    <th>{{ knp_pagination_sortable(users, 'Email', 'email') }} {{ form_widget(form.email) }}</th>
-                    <th>{{ knp_pagination_sortable(users, 'Телефон', 'phone') }} {{ form_widget(form.phone) }}</th>
-                    <th>{{ knp_pagination_sortable(users, 'Роль', 'role') }} {{ form_widget(form.role) }}</th>
-                    <th>{{ knp_pagination_sortable(users, 'Статус', 'status') }} {{ form_widget(form.status) }}</th>
-                </tr>
-            {{ form_end(form) }}
-            </thead>
-            <tbody>
-            {% for user in users %}
-                <tr>
-                    <td><a href="{{ path('admin.users.show', {'id': user.id}) }}">{{ user.id }}</a></td>
-                    <td>{{ user.created_date|date('Y-m-d') }}</td>
-                    <td>{{ user.name_surname }}</td>
-                    <td>{{ user.name_name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.phone }}</td>
-                    <td>{{ user_role(user.role) }}</td>
-                    <td>{{ user_status(user.status) }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <div class="navigation">
-            {{ knp_pagination_render(users) }}
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-responsive-sm">
+                <thead>
+                {{ form_start(form) }}
+                    <tr>
+                        <th>{{ knp_pagination_sortable(users, 'ID', 'id') }} {{ form_widget(form.id, {'attr': {'class': 'form-control'}}) }}</th>
+                        <th>{{ knp_pagination_sortable(users, 'Дата регистрации', 'created_date') }} {{ form_widget(form.created_date, {'attr': {'class': 'form-control'}}) }}</th>
+                        <th>{{ knp_pagination_sortable(users, 'Фамилия', 'surname') }} {{ form_widget(form.surname, {'attr': {'class': 'form-control'}}) }}</th>
+                        <th>{{ knp_pagination_sortable(users, 'Имя', 'name') }} {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}</th>
+                        <th>{{ knp_pagination_sortable(users, 'Email', 'email') }} {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}</th>
+                        <th>{{ knp_pagination_sortable(users, 'Телефон', 'phone') }} {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}</th>
+                        <th>{{ knp_pagination_sortable(users, 'Роль', 'role') }} {{ form_widget(form.role, {'attr': {'class': 'form-control'}}) }}</th>
+                        <th>{{ knp_pagination_sortable(users, 'Статус', 'status') }} {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}</th>
+                    </tr>
+                {{ form_end(form) }}
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td><a href="{{ path('admin.users.show', {'id': user.id}) }}">{{ user.id }}</a></td>
+                        <td>{{ user.created_date|date('Y-m-d') }}</td>
+                        <td>{{ user.name_surname }}</td>
+                        <td>{{ user.name_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ user_role(user.role) }}</td>
+                        <td>{{ user_status(user.status) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(users) }}
+            </div>
         </div>
     </div>
 {% endblock %}

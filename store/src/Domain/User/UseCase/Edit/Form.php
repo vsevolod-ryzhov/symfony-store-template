@@ -16,8 +16,16 @@ class Form extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('surname', Type\TextType::class, ['label' => 'Фамилия'])
-            ->add('name', Type\TextType::class, ['label' => 'Имя']);
+            ->add('surname', Type\TextType::class, [
+                'label' => 'Фамилия',
+                'row_attr' => ['class' => 'form-group'],
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('name', Type\TextType::class, [
+                'label' => 'Имя',
+                'row_attr' => ['class' => 'form-group'],
+                'attr' => ['class' => 'form-control']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

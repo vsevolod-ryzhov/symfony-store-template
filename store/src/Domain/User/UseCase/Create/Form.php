@@ -16,10 +16,26 @@ class Form extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', Type\EmailType::class, ['label' => 'Email'])
-            ->add('phone', Type\TelType::class, ['label' => 'Телефон'])
-            ->add('surname', Type\TextType::class, ['label' => 'Фамилия'])
-            ->add('name', Type\TextType::class, ['label' => 'Имя']);
+            ->add('email', Type\EmailType::class, [
+                'label' => 'Email',
+                'row_attr' => ['class' => 'form-group'],
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('phone', Type\TelType::class, [
+                'label' => 'Телефон',
+                'row_attr' => ['class' => 'form-group'],
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('surname', Type\TextType::class, [
+                'label' => 'Фамилия',
+                'row_attr' => ['class' => 'form-group'],
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('name', Type\TextType::class, [
+                'label' => 'Имя',
+                'row_attr' => ['class' => 'form-group'],
+                'attr' => ['class' => 'form-control']
+            ]);
 
     }
 

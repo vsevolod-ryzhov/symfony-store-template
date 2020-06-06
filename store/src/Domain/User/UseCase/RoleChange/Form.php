@@ -16,7 +16,12 @@ class Form extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('role', ChoiceType::class, ['label' => 'Роль', 'choices' => array_flip(RoleHelper::rolesList())]);
+        $builder->add('role', ChoiceType::class, [
+            'label' => 'Роль',
+            'choices' => array_flip(RoleHelper::rolesList()),
+            'row_attr' => ['class' => 'form-group'],
+            'attr' => ['class' => 'form-control']
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
