@@ -7,7 +7,6 @@ namespace App\Domain\User\Entity;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\GeneratedValue;
 use DomainException;
 
 /**
@@ -21,9 +20,9 @@ use DomainException;
 class User
 {
     /**
-     * @ORM\Column
-     * @ORM\Id
-     * @GeneratedValue
+     * @ORM\Column(type="integer")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      */
     private $id;
 
