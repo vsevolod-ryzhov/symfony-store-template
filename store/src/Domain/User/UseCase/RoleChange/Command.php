@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Command
 {
     /**
-     * @var string
+     * @var integer
      * @Assert\NotBlank()
      */
     public $id;
@@ -23,7 +23,7 @@ class Command
      */
     public $role;
 
-    public function __construct(string $id)
+    public function __construct(int $id)
     {
         $this->id = $id;
     }

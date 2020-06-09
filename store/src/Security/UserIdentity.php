@@ -8,6 +8,7 @@ namespace App\Security;
 
 use App\Domain\User\Entity\Status;
 use App\Domain\User\Entity\User;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -20,7 +21,7 @@ class UserIdentity implements UserInterface, EquatableInterface
     private $status;
 
     public function __construct(
-        string $id,
+        int $id,
         string $username,
         string $password,
         string $role,

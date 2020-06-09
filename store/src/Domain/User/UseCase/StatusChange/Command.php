@@ -11,7 +11,7 @@ class Command
 
     public $status;
 
-    public function __construct(string $id, string $status)
+    public function __construct(int $id, string $status)
     {
         $this->id = $id;
         $this->status = $status;

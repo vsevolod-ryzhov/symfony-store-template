@@ -26,11 +26,11 @@ class UserRepository
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return User
      * @throws EntityNotFoundException
      */
-    public function get(string $id): User
+    public function get(int $id): User
     {
         /** @var User $user */
         if (!$user = $this->repository->find($id)) {
