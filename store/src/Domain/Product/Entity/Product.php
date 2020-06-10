@@ -27,15 +27,15 @@ class Product
 
     /**
      * @var DateTimeImmutable
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", name="created_date")
      */
-    private $created_date;
+    private $createdDate;
 
     /**
      * @var DateTimeImmutable
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", name="updated_date")
      */
-    private $updated_date;
+    private $updatedDate;
 
     /**
      * @var string
@@ -56,16 +56,10 @@ class Product
     private $sku;
 
     /**
-     * @var string
-     * @ORM\Column(type="decimal", precision=7, scale=2, name="price")
+     * @var Price
+     * @ORM\Column(class="Price", columnPrefix="price_")
      */
     private $price;
-
-    /**
-     * @var string
-     * @ORM\Column(type="decimal", precision=7, scale=2, name="old_price")
-     */
-    private $oldPrice;
 
     /**
      * @var integer
@@ -81,7 +75,7 @@ class Product
 
     /**
      * @var string
-     * @ORM\Column(type="string", name="description", nullable=true)
+     * @ORM\Column(type="text", name="description", nullable=true)
      */
     private $description;
 
@@ -102,4 +96,29 @@ class Product
      * @ORM\Embedded(class="Meta", columnPrefix="meta_")
      */
     private $meta;
+
+    public static function create(
+        DateTimeImmutable $createdDate,
+        string $title,
+        string $url,
+        string $sku,
+        Price $price,
+        int $warehouse,
+        float $weight,
+        string $description,
+        Meta $meta
+    ): self
+    {
+        $product = new self();
+        $product->createdDate = $createdDate;
+        $product->title = $title;
+        $product->url = $url;
+        $product->sku = $sku;
+        $product->price = $price;
+        $product->warehouse = $warehouse;
+        $product->weight = $weight;
+        $product->description = $description;
+        $product->meta = $meta;
+        return $product;
+    }
 }
