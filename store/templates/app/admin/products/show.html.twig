@@ -1,0 +1,11 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Товар #{{ user.id }}{% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb border-0 m-0">
+        <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin.products') }}">Товары</a></li>
+        <li class="breadcrumb-item active">Информация о товаре #{{ user.id }}</li>
+    </ol>
+{% endblock %}

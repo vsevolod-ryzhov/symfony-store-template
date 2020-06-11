@@ -16,7 +16,11 @@ use function in_array;
 
 class UserQuery
 {
+    /**
+     * @var Connection
+     */
     private $connection;
+
     /**
      * @var PaginatorInterface
      */

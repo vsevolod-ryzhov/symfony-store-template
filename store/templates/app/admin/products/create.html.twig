@@ -1,0 +1,24 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Создать новый товар{% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb border-0 m-0">
+        <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin.products') }}">Товары</a></li>
+        <li class="breadcrumb-item active">Создать новый товар</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">Создать</button>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+{% endblock %}

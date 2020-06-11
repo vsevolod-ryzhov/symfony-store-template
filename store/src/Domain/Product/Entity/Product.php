@@ -57,7 +57,7 @@ class Product
 
     /**
      * @var Price
-     * @ORM\Column(class="Price", columnPrefix="price_")
+     * @ORM\Embedded(class="Price", columnPrefix="price_")
      */
     private $price;
 
@@ -81,7 +81,7 @@ class Product
 
     /**
      * @var bool
-     * @ORM\Column(type="string", name="is_deleted")
+     * @ORM\Column(type="boolean", name="is_deleted")
      */
     private $isDeleted;
 
@@ -111,6 +111,7 @@ class Product
     {
         $product = new self();
         $product->createdDate = $createdDate;
+        $product->updatedDate = $createdDate;
         $product->title = $title;
         $product->url = $url;
         $product->sku = $sku;
@@ -119,6 +120,8 @@ class Product
         $product->weight = $weight;
         $product->description = $description;
         $product->meta = $meta;
+        $product->isDeleted = false;
+        $product->sort = 1; // TODO: change it to calculated sort value
         return $product;
     }
 }
