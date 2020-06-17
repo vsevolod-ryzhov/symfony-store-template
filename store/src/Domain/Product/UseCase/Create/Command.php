@@ -46,7 +46,6 @@ class Command
     public $price;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\PositiveOrZero
      */
     public $priceOld;

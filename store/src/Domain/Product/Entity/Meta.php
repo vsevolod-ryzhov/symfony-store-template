@@ -13,50 +13,56 @@ use Doctrine\ORM\Mapping as ORM;
 class Meta
 {
     /**
-     * @var string
+     * @var ?string
      * @ORM\Column(type="string", nullable=true)
      */
     private $title;
 
     /**
-     * @var string
+     * @var ?string
      * @ORM\Column(type="text", nullable=true)
      */
     private $keywords;
 
     /**
-     * @var string
+     * @var ?string
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
-    public function __construct(string $title = "", string $keywords = "", string $description = "")
+    public function __construct(?string $title, ?string $keywords, ?string $description)
     {
         $this->title = $title;
         $this->keywords = $keywords;
         $this->description = $description;
     }
 
+    public function __toString(): string
+    {
+        /// TODO: create twig extension for pretty output
+        return "$this->title\n$this->keywords\n$this->description";
+    }
+
     /**
-     * @return string
+     * @return ?string
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getKeywords(): string
+    public function getKeywords(): ?string
     {
         return $this->keywords;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

@@ -24,10 +24,10 @@ class Price
      */
     private $oldPrice;
 
-    public function __construct(float $price, float $oldPrice = 0)
+    public function __construct(float $price, ?float $oldPrice)
     {
         $this->price = $price;
-        $this->oldPrice = $oldPrice;
+        $this->oldPrice = $oldPrice ?: 0;
     }
 
     /**
@@ -35,7 +35,7 @@ class Price
      */
     public function getPrice(): float
     {
-        return $this->price;
+        return (float)$this->price;
     }
 
     /**
@@ -43,6 +43,6 @@ class Price
      */
     public function getOldPrice(): float
     {
-        return $this->oldPrice;
+        return (float)$this->oldPrice;
     }
 }

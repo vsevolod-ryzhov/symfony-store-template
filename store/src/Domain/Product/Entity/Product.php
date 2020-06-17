@@ -9,6 +9,7 @@ namespace App\Domain\Product\Entity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="product_products", uniqueConstraints={
@@ -74,7 +75,7 @@ class Product
     private $weight;
 
     /**
-     * @var string
+     * @var string|null
      * @ORM\Column(type="text", name="description", nullable=true)
      */
     private $description;
@@ -105,7 +106,7 @@ class Product
         Price $price,
         int $warehouse,
         float $weight,
-        string $description,
+        ?string $description,
         Meta $meta
     ): self
     {
@@ -124,4 +125,110 @@ class Product
         $product->sort = 1; // TODO: change it to calculated sort value
         return $product;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getCreatedDate(): DateTimeImmutable
+    {
+        return $this->createdDate;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getUpdatedDate(): DateTimeImmutable
+    {
+        return $this->updatedDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSku(): string
+    {
+        return $this->sku;
+    }
+
+    /**
+     * @return Price
+     */
+    public function getPrice(): Price
+    {
+        return $this->price;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWarehouse(): int
+    {
+        return $this->warehouse;
+    }
+
+    /**
+     * @return float
+     */
+    public function getWeight(): float
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSort(): int
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @return Meta
+     */
+    public function getMeta(): Meta
+    {
+        return $this->meta;
+    }
+
+
 }

@@ -38,6 +38,7 @@ class Form extends AbstractType
             ])
             ->add('priceOld', Type\NumberType::class, [
                 'label' => 'Старая цена ',
+                'required' => false,
                 'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control']
             ])
@@ -53,21 +54,25 @@ class Form extends AbstractType
             ])
             ->add('description', Type\TextType::class, [
                 'label' => 'Описание',
+                'required' => false,
                 'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control']
             ])
             ->add('metaTitle', Type\TextType::class, [
                 'label' => 'Мета заголовок',
+                'required' => false,
                 'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control']
             ])
             ->add('metaKeywords', Type\TextType::class, [
                 'label' => 'Мета ключевые слова',
+                'required' => false,
                 'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control']
             ])
             ->add('metaDescription', Type\TextType::class, [
                 'label' => 'Мета описание',
+                'required' => false,
                 'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control']
             ]);
