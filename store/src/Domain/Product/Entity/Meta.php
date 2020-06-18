@@ -13,24 +13,24 @@ use Doctrine\ORM\Mapping as ORM;
 class Meta
 {
     /**
-     * @var ?string
+     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     private $title;
 
     /**
-     * @var ?string
+     * @var string|null
      * @ORM\Column(type="text", nullable=true)
      */
     private $keywords;
 
     /**
-     * @var ?string
+     * @var string|null
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
-    public function __construct(?string $title, ?string $keywords, ?string $description)
+    public function __construct(?string $title = null, ?string $keywords = null, ?string $description = null)
     {
         $this->title = $title;
         $this->keywords = $keywords;
@@ -44,7 +44,7 @@ class Meta
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
     public function getTitle(): ?string
     {
@@ -52,7 +52,7 @@ class Meta
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
     public function getKeywords(): ?string
     {
@@ -60,7 +60,7 @@ class Meta
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
     public function getDescription(): ?string
     {
