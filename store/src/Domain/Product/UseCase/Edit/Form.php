@@ -58,6 +58,19 @@ class Form extends AbstractType
                 'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control']
             ])
+            ->add('sort', Type\IntegerType::class, [
+                'label' => 'Порядок сортировки',
+                'required' => false,
+                'row_attr' => ['class' => 'form-group'],
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('isDeleted', Type\CheckboxType::class, [
+                'label' => 'Товар удален?',
+                'required' => false,
+                'label_attr' => ['class' => 'checkbox-custom'],
+                'row_attr' => ['class' => 'form-group'],
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('metaTitle', Type\TextType::class, [
                 'label' => 'Мета заголовок',
                 'required' => false,

@@ -89,6 +89,7 @@ class Product
     /**
      * @var integer
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $sort;
 
@@ -107,7 +108,8 @@ class Product
         int $warehouse,
         float $weight,
         ?string $description,
-        Meta $meta
+        Meta $meta,
+        int $sort
     ): self
     {
         $product = new self();
@@ -122,7 +124,7 @@ class Product
         $product->description = $description;
         $product->meta = $meta;
         $product->isDeleted = false;
-        $product->sort = 1; // TODO: change it to calculated sort value
+        $product->sort = $sort;
         return $product;
     }
 
@@ -135,7 +137,9 @@ class Product
         int $warehouse,
         float $weight,
         ?string $description,
-        Meta $meta
+        Meta $meta,
+        int $sort,
+        bool $isDeleted
     ): void
     {
         $this->updatedDate = $updatedDate;
@@ -147,8 +151,8 @@ class Product
         $this->weight = $weight;
         $this->description = $description;
         $this->meta = $meta;
-        $this->isDeleted = false;
-        $this->sort = 1; // TODO: change it to calculated sort value
+        $this->sort = $sort;
+        $this->isDeleted = $isDeleted;
     }
 
     /**

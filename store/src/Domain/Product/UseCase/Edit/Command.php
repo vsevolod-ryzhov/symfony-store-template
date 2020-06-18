@@ -74,6 +74,17 @@ class Command
     public $description;
 
     /**
+     * @var boolean
+     */
+    public $isDeleted;
+
+    /**
+     * @var int
+     * @Assert\Positive()
+     */
+    public $sort;
+
+    /**
      * @var string
      */
     public $metaTitle;
@@ -106,6 +117,8 @@ class Command
         $this->metaTitle = $product->getMeta()->getTitle();
         $this->metaKeywords = $product->getMeta()->getKeywords();
         $this->metaDescription = $product->getMeta()->getDescription();
+        $this->isDeleted = $product->isDeleted();
+        $this->sort = $product->getSort();
     }
 
 

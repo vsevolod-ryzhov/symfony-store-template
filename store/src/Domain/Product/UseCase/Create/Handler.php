@@ -9,6 +9,7 @@ namespace App\Domain\Product\UseCase\Create;
 use App\Domain\Product\Entity\Meta;
 use App\Domain\Product\Entity\Price;
 use App\Domain\Product\Entity\Product;
+use App\Domain\Product\ProductQuery;
 use App\Domain\Product\ProductRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,14 +30,19 @@ class Handler
      */
     private $repository;
     /**
+     * @var ProductQuery
+     */
+    private $query;
+    /**
      * @var SluggerInterface
      */
     private $slugger;
 
-    public function __construct(EntityManagerInterface $em, ProductRepository $repository, SluggerInterface $slugger)
+    public function __construct(EntityManagerInterface $em, ProductRepository $repository, ProductQuery $query, SluggerInterface $slugger)
     {
         $this->em = $em;
         $this->repository = $repository;
+        $this->query = $query;
         $this->slugger = $slugger;
     }
 
@@ -49,11 +55,11 @@ class Handler
             throw new DomainException(self::PRODUCT_EXISTS_MESSAGE);
         }
 
-        if (!empty($command->url)) {
-            $slug = $this->slugger->slug($command->url)->lower()->toString();
-        } else {
-            $slug = $this->slugger->slug($command->title)->lower()->toString();
-        }
+        $title = $command->url ?: $command->title;
+        $slug = $this->slugger->slug($title)->lower()->toString();
+
+        $sort = $this->query->getMaxSort();
+        $sort++;
 
         $product = Product::create(
             new DateTimeImmutable(),
@@ -64,7 +70,8 @@ class Handler
             $command->warehouse,
             $command->weight,
             $command->description,
-            new Meta($command->metaTitle, $command->metaKeywords, $command->metaDescription)
+            new Meta($command->metaTitle, $command->metaKeywords, $command->metaDescription),
+            $sort
         );
 
         $this->repository->add($product);

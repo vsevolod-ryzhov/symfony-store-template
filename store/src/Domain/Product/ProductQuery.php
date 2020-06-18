@@ -29,6 +29,14 @@ class ProductQuery
         $this->paginator = $paginator;
     }
 
+    public function getMaxSort(): int
+    {
+        return (int)$this->connection->createQueryBuilder()
+            ->select('COALESCE(MAX(sort), 1) AS sort')
+            ->from('product_products', 'p')
+            ->execute()->fetch()['sort'];
+    }
+
     public function all(Filter\ProductIndex\Filter $filter, int $page, int $size, string $sort, string $direction = 'desc'): PaginationInterface
     {
         $query = $this->connection->createQueryBuilder()
