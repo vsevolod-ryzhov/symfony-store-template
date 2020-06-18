@@ -36,7 +36,7 @@ class ProductFixture extends Fixture
         $product = Product::create(
             new DateTimeImmutable(),
             $title,
-            $this->slugger->slug($title)->toString(),
+            $this->slugger->slug($title)->lower()->toString(),
             '123456789',
             new Price(1000, 2000),
             10,

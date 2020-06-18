@@ -3,22 +3,18 @@
 declare(strict_types=1);
 
 
-namespace App\Domain\Product\UseCase\Create;
+namespace App\Domain\Product\UseCase\Edit;
 
 
 use App\Domain\Product\Entity\Meta;
 use App\Domain\Product\Entity\Price;
-use App\Domain\Product\Entity\Product;
 use App\Domain\Product\ProductRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use DomainException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class Handler
 {
-    const PRODUCT_EXISTS_MESSAGE = 'Товар с указанными данными уже существует';
-
     /**
      * @var EntityManagerInterface
      */
@@ -42,12 +38,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        if ($this->repository->hasByUrl($command->url)) {
-            throw new DomainException(self::PRODUCT_EXISTS_MESSAGE);
-        }
-        if ($this->repository->hasBySku($command->sku)) {
-            throw new DomainException(self::PRODUCT_EXISTS_MESSAGE);
-        }
+        $product = $this->repository->get($command->id);
 
         if (!empty($command->url)) {
             $slug = $this->slugger->slug($command->url)->lower()->toString();
@@ -55,7 +46,7 @@ class Handler
             $slug = $this->slugger->slug($command->title)->lower()->toString();
         }
 
-        $product = Product::create(
+        $product->update(
             new DateTimeImmutable(),
             $command->title,
             $slug,
@@ -67,7 +58,6 @@ class Handler
             new Meta($command->metaTitle, $command->metaKeywords, $command->metaDescription)
         );
 
-        $this->repository->add($product);
         $this->em->flush();
     }
 }

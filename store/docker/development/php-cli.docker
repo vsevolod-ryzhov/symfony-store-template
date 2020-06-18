@@ -8,4 +8,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --fil
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
+#Intl
+RUN apt-get install -y zlib1g-dev libicu-dev g++
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
+
 WORKDIR /app

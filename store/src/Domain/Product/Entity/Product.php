@@ -126,6 +126,31 @@ class Product
         return $product;
     }
 
+    public function update(
+        DateTimeImmutable $updatedDate,
+        string $title,
+        string $url,
+        string $sku,
+        Price $price,
+        int $warehouse,
+        float $weight,
+        ?string $description,
+        Meta $meta
+    ): void
+    {
+        $this->updatedDate = $updatedDate;
+        $this->title = $title;
+        $this->url = $url;
+        $this->sku = $sku;
+        $this->price = $price;
+        $this->warehouse = $warehouse;
+        $this->weight = $weight;
+        $this->description = $description;
+        $this->meta = $meta;
+        $this->isDeleted = false;
+        $this->sort = 1; // TODO: change it to calculated sort value
+    }
+
     /**
      * @return mixed
      */

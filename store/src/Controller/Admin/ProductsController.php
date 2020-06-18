@@ -7,15 +7,16 @@ namespace App\Controller\Admin;
 
 
 use App\Domain\Product\Entity\Product;
+use App\Domain\Product\Filter\ProductIndex;
 use App\Domain\Product\ProductQuery;
+use App\Domain\Product\UseCase\Create;
+use App\Domain\Product\UseCase\Edit;
 use DomainException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Domain\Product\UseCase\Create;
-use App\Domain\Product\Filter\ProductIndex;
 
 /**
  * @Route("/admin/products", name="admin.products")
@@ -39,6 +40,7 @@ class ProductsController extends AbstractController
     /**
      * @Route("", name="")
      * @param Request $request
+     * @param ProductQuery $products
      * @return Response
      */
     public function index(Request $request, ProductQuery $products): Response
@@ -77,6 +79,35 @@ class ProductsController extends AbstractController
             try {
                 $handler->handle($command);
                 return $this->redirectToRoute('admin.products');
+            } catch (DomainException $e) {
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
+            }
+        }
+
+        return $this->render('app/admin/products/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name=".edit")
+     * @param Request $request
+     * @param Product $product
+     * @param Edit\Handler $handler
+     * @return Response
+     */
+    public function edit(Request $request, Product $product, Edit\Handler $handler): Response
+    {
+        $command = new Edit\Command($product);
+
+        $form = $this->createForm(Edit\Form::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $handler->handle($command);
+                return $this->redirectToRoute('admin.products.show', ['id' => $product->getId()]);
             } catch (DomainException $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
