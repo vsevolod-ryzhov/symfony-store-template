@@ -13,63 +13,69 @@
 
 {% block body %}
     
-    <div class="box mt-3">
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <th>ID</th>
-                    <td>{{ product.id }}</td>
-                </tr>
-                <tr>
-                    <th>Дата создания</th>
-                    <td>{{ product.createdDate|date('Y-m-d H:i:s') }}</td>
-                </tr>
-                <tr>
-                    <th>Дата изменения</th>
-                    <td>{{ product.updatedDate|date('Y-m-d H:i:s') }}</td>
-                </tr>
-                <tr>
-                    <th>Название</th>
-                    <td>{{ product.title }}</td>
-                </tr>
-                <tr>
-                    <th>URL</th>
-                    <td>{{ product.url }}</td>
-                </tr>
-                <tr>
-                    <th>Артикул</th>
-                    <td>{{ product.sku }}</td>
-                </tr>
-                <tr>
-                    <th>Цена</th>
-                    <td>{{ product_price(product.price) }}</td>
-                </tr>
-                <tr>
-                    <th>Количество на складе</th>
-                    <td>{{ product.warehouse }} шт.</td>
-                </tr>
-                <tr>
-                    <th>Вес</th>
-                    <td>{{ product.weight }} г.</td>
-                </tr>
-                <tr>
-                    <th>Описание</th>
-                    <td>{{ product.description }}</td>
-                </tr>
-                <tr>
-                    <th>Товар удален?</th>
-                    <td>{{ product.isDeleted ? 'Да' : 'Нет' }}</td>
-                </tr>
-                <tr>
-                    <th>Порядок сортировки</th>
-                    <td>{{ product.sort }}</td>
-                </tr>
-                <tr>
-                    <th>Мета</th>
-                    <td>{{ product.meta }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="card mt-3">
+        <div class="card-header">Инфомрация о товаре</div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ product.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Дата создания</th>
+                        <td>{{ product.createdDate|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Дата изменения</th>
+                        <td>{{ product.updatedDate|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Название</th>
+                        <td>{{ product.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>URL</th>
+                        <td>{{ product.url }}</td>
+                    </tr>
+                    <tr>
+                        <th>Артикул</th>
+                        <td>{{ product.sku }}</td>
+                    </tr>
+                    <tr>
+                        <th>Цена</th>
+                        <td>{{ product_price(product.price) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Количество на складе</th>
+                        <td>{{ product.warehouse }} шт.</td>
+                    </tr>
+                    <tr>
+                        <th>Вес</th>
+                        <td>{{ product.weight }} г.</td>
+                    </tr>
+                    <tr>
+                        <th>Описание</th>
+                        <td>{{ product.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Товар удален?</th>
+                        <td>{{ product.isDeleted ? 'Да' : 'Нет' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Порядок сортировки</th>
+                        <td>{{ product.sort }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header">Мета</div>
+        <div class="card-body">
+            {{ meta(product.meta) }}
+        </div>
     </div>
 
 {% endblock %}

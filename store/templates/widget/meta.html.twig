@@ -1,0 +1,16 @@
+<dl class="row">
+    {% if meta.title %}
+        <dt class="col-sm-3">Заголовок</dt>
+        <dd class="col-sm-9">{{ meta.title }}</dd>
+    {% endif %}
+
+    {% if meta.keywords %}
+        <dt class="col-sm-3">Keywords</dt>
+        <dd class="col-sm-9">{{ meta.keywords }}</dd>
+    {% endif %}
+
+    {% if meta.description %}
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">{{ meta.description }}</dd>
+    {% endif %}
+</dl>

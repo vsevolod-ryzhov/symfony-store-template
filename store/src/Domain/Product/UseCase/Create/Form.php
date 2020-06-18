@@ -52,7 +52,7 @@ class Form extends AbstractType
                 'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('description', Type\TextType::class, [
+            ->add('description', Type\TextareaType::class, [
                 'label' => 'Описание',
                 'required' => false,
                 'row_attr' => ['class' => 'form-group'],
