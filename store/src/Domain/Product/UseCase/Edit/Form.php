@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Domain\Product\UseCase\Edit;
 
 
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -52,7 +53,7 @@ class Form extends AbstractType
                 'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('description', Type\TextareaType::class, [
+            ->add('description', CKEditorType::class, [
                 'label' => 'Описание',
                 'required' => false,
                 'row_attr' => ['class' => 'form-group'],
