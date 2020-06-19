@@ -89,7 +89,6 @@ class Product
     /**
      * @var integer
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $sort;
 
