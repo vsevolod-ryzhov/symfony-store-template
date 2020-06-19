@@ -33,43 +33,46 @@
         </div>
     </div>
 
-    <div class="box mt-3">
-        <table class="table table-bordered">
-            <tbody>
-            <tr>
-                <th>ID</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Фамилия</th>
-                <td>{{ user.name.surname }}</td>
-            </tr>
-            <tr>
-                <th>Имя</th>
-                <td>{{ user.name.name }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email ? user.email.value : '' }}</td>
-            </tr>
-            <tr>
-                <th>Телефон</th>
-                <td>{{ user.phone ? user.phone.value : '' }}</td>
-            </tr>
-            <tr>
-                <th>Дата регистрации</th>
-                <td>{{ user.createdDate|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Роль</th>
-                <td>{{ user_role(user.role.name) }}</td>
-            </tr>
-            <tr>
-                <th>Статус</th>
-                <td>{{ user_status(user.status.value) }}</td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="card mt-3">
+        <div class="card-header">Пользователь #{{ user.id }}</div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                    <th>Фамилия</th>
+                    <td>{{ user.name.surname }}</td>
+                </tr>
+                <tr>
+                    <th>Имя</th>
+                    <td>{{ user.name.name }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email ? user.email.value : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Телефон</th>
+                    <td>{{ user.phone ? user.phone.value : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Дата регистрации</th>
+                    <td>{{ user.createdDate|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Роль</th>
+                    <td>{{ user_role(user.role.name) }}</td>
+                </tr>
+                <tr>
+                    <th>Статус</th>
+                    <td>{{ user_status(user.status.value) }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 {% endblock %}
