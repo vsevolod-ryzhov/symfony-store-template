@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\Domain\Product\UseCase\Photos\Upload;
 
 
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +20,6 @@ class Form extends AbstractType
                 'label' => 'Фотография',
                 'required' => false,
                 'multiple' => true,
-                'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control-file']
             ]);
     }
