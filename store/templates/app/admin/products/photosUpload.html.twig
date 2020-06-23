@@ -1,0 +1,40 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Загрузить фотографии для товара #{{ product.id }}{% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb border-0 m-0">
+        <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin.products') }}">Товары</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin.products.show', {'id': product.id}) }}">Товар #{{ product.id }}</a></li>
+        <li class="breadcrumb-item active">Загрузить фотографии для товара #{{ product.id }}</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">Загрузить фотографию</div>
+        <div class="card-body">
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">Загрузить</button>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                {% for photo in photos %}
+                    <form action="{{ path('admin.products.photos.delete', {'id': product.id}) }}" method="post" class="col-3 text-center">
+                        <img src="{{ photo['rel'] }}" alt="{{ product.title }}" class="img-thumbnail" />
+                        <button class="btn btn-danger">Удалить фото</button>
+                        <input type="hidden" name="token" value="{{ csrf_token('photo') }}" />
+                        <input type="hidden" name="fileName" value="{{ photo['fileName'] }}" />
+                    </form>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -257,6 +257,4 @@ class Product
     {
         return $this->meta;
     }
-
-
 }

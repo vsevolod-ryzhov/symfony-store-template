@@ -6,6 +6,7 @@
     <ol class="breadcrumb border-0 m-0">
         <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
         <li class="breadcrumb-item"><a href="{{ path('admin.products') }}">Товары</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin.products.show', {'id': product.id}) }}">Товар #{{ product.id }}</a></li>
         <li class="breadcrumb-item active">Редактировать товар #{{ product.id }}</li>
     </ol>
 {% endblock %}

@@ -11,3 +11,4 @@ Nearest development plans
 - [x] CRUD for users in admin section
 - [x] Some template for admin section
 - [ ] src\Domain\Product\*
+- [ ] src\Domain\ProductCategory\*

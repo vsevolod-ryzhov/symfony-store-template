@@ -9,8 +9,10 @@ namespace App\Controller\Admin;
 use App\Domain\Product\Entity\Product;
 use App\Domain\Product\Filter\ProductIndex;
 use App\Domain\Product\ProductQuery;
+use App\Domain\Product\Service\Image;
 use App\Domain\Product\UseCase\Create;
 use App\Domain\Product\UseCase\Edit;
+use App\Domain\Product\UseCase\Photos;
 use DomainException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -118,6 +120,62 @@ class ProductsController extends AbstractController
             'form' => $form->createView(),
             'product' => $product
         ]);
+    }
+
+    /**
+     * @Route("/photos/{id}", name=".photos")
+     * @param Request $request
+     * @param Product $product
+     * @param Edit\Handler $handler
+     * @return Response
+     */
+    public function photos(Request $request, Product $product, Photos\Upload\Handler $handler, Image $image): Response
+    {
+        $command = new Photos\Upload\Command($product);
+
+        $form = $this->createForm(Photos\Upload\Form::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $handler->handle($command);
+                return $this->redirectToRoute('admin.products.photos', ['id' => $product->getId()]);
+            } catch (DomainException $e) {
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
+            }
+        }
+
+        return $this->render('app/admin/products/photosUpload.html.twig', [
+            'form' => $form->createView(),
+            'product' => $product,
+            'photos' => $image->getProductPhotos($product)
+        ]);
+    }
+
+    /**
+     * @Route("/photos/{id}/delete", name=".photos.delete", methods={"POST"})
+     * @param Product $product
+     * @param Request $request
+     * @param Photos\Delete\Handler $handler
+     * @return Response
+     */
+    public function deletePhoto(Product $product, Request $request, Photos\Delete\Handler $handler): Response
+    {
+        if (!$this->isCsrfTokenValid('photo', $request->request->get('token'))) {
+            return $this->redirectToRoute('admin.products.photos', ['id' => $product->getId()]);
+        }
+
+        $command = new Photos\Delete\Command($product->getId(), $request->request->get('fileName'));
+
+        try {
+            $handler->handle($command);
+        } catch (DomainException $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
+            $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
+        }
+
+        return $this->redirectToRoute('admin.products.photos', ['id' => $product->getId()]);
     }
 
     /**
