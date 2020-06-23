@@ -17,14 +17,10 @@ class Form extends AbstractType
     {
         $builder
             ->add('surname', Type\TextType::class, [
-                'label' => 'Фамилия',
-                'row_attr' => ['class' => 'form-group'],
-                'attr' => ['class' => 'form-control']
+                'label' => 'Фамилия'
             ])
             ->add('name', Type\TextType::class, [
-                'label' => 'Имя',
-                'row_attr' => ['class' => 'form-group'],
-                'attr' => ['class' => 'form-control']
+                'label' => 'Имя'
             ]);
     }
 
