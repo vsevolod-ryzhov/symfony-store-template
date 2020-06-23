@@ -16,13 +16,13 @@ class Command
     public $id;
 
     /**
-     * @Assert\File(
+     * @Assert\All({@Assert\File(
      *     maxSize = "2024k",
      *     mimeTypes = {"image/jpeg", "image/png"},
      *     mimeTypesMessage = "Please upload an image"
-     * )
+     * )})
      */
-    public $file;
+    public $files;
 
     /**
      * Command constructor.

@@ -36,26 +36,25 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $file = $command->file;
+        if ($command->files) {
+            foreach ($command->files as $file) {
+                $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $this->slugger->slug($fileName);
+                $newFilename = $safeFilename . '-' . uniqid('', false) . '.' . $file->guessExtension();
 
-        if ($file) {
-            $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = $this->slugger->slug($fileName);
-            $newFilename = $safeFilename.'-'.uniqid('', false).'.'.$file->guessExtension();
-
-            $dirName = $this->params->get('products_directory') . DIRECTORY_SEPARATOR . $command->id;
-            if (!is_dir($dirName) && !mkdir($dirName) && !is_dir($dirName)) {
-                throw new DomainException(sprintf('Directory "%s" was not created', $dirName));
+                $dirName = $this->params->get('products_directory') . DIRECTORY_SEPARATOR . $command->id;
+                if (!is_dir($dirName) && !mkdir($dirName) && !is_dir($dirName)) {
+                    throw new DomainException(sprintf('Directory "%s" was not created', $dirName));
+                }
+                try {
+                    $file->move(
+                        $dirName,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    $this->logger->error($e->getMessage());
+                }
             }
-            try {
-                $file->move(
-                    $dirName,
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                $this->logger->error($e->getMessage());
-            }
-
         }
     }
 }

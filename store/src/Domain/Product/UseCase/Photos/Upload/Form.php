@@ -17,9 +17,10 @@ class Form extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('file', Type\FileType::class, [
+            ->add('files', Type\FileType::class, [
                 'label' => 'Фотография',
                 'required' => false,
+                'multiple' => true,
                 'row_attr' => ['class' => 'form-group'],
                 'attr' => ['class' => 'form-control-file']
             ]);
