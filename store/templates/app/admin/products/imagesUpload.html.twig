@@ -29,13 +29,13 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <div class="row">
-                {% for photo in photos %}
-                    <form action="{{ path('admin.products.photos.delete', {'id': product.id}) }}" method="post" class="col-3 text-center">
-                        <img src="{{ photo['rel'] }}" alt="{{ product.title }}" class="img-thumbnail" />
+            <div id="sortable" class="row" data-callback="{{ path('admin.products.images.sort', {'id': product.id}) }}">
+                {% for image in images %}
+                    <form data-id="{{ image.fileName }}" action="{{ path('admin.products.images.delete', {'id': product.id}) }}" method="post" class="col-3 text-center">
+                        <img src="{{ image.relPath }}" alt="{{ product.title }}" class="img-thumbnail" />
                         <button class="btn btn-danger">Удалить фото</button>
-                        <input type="hidden" name="token" value="{{ csrf_token('photo') }}" />
-                        <input type="hidden" name="fileName" value="{{ photo['fileName'] }}" />
+                        <input type="hidden" name="token" value="{{ csrf_token('image') }}" />
+                        <input type="hidden" name="fileName" value="{{ image.fileName }}" />
                     </form>
                 {% endfor %}
             </div>

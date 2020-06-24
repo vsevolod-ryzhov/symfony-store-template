@@ -12,7 +12,8 @@ use App\Domain\Product\ProductQuery;
 use App\Domain\Product\Service\Image;
 use App\Domain\Product\UseCase\Create;
 use App\Domain\Product\UseCase\Edit;
-use App\Domain\Product\UseCase\Photos;
+use App\Domain\Product\UseCase\Images;
+use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -123,50 +124,50 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/photos/{id}", name=".photos")
+     * @Route("/photos/{id}", name=".images")
      * @param Request $request
      * @param Product $product
      * @param Edit\Handler $handler
      * @return Response
      */
-    public function photos(Request $request, Product $product, Photos\Upload\Handler $handler, Image $image): Response
+    public function images(Request $request, Product $product, Images\Upload\Handler $handler, Image $image): Response
     {
-        $command = new Photos\Upload\Command($product);
+        $command = new Images\Upload\Command($product);
 
-        $form = $this->createForm(Photos\Upload\Form::class, $command);
+        $form = $this->createForm(Images\Upload\Form::class, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $handler->handle($command);
-                return $this->redirectToRoute('admin.products.photos', ['id' => $product->getId()]);
+                return $this->redirectToRoute('admin.products.images', ['id' => $product->getId()]);
             } catch (DomainException $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
             }
         }
 
-        return $this->render('app/admin/products/photosUpload.html.twig', [
+        return $this->render('app/admin/products/imagesUpload.html.twig', [
             'form' => $form->createView(),
             'product' => $product,
-            'photos' => $image->getProductPhotos($product)
+            'images' => $image->getProductImages($product)
         ]);
     }
 
     /**
-     * @Route("/photos/{id}/delete", name=".photos.delete", methods={"POST"})
+     * @Route("/images/{id}/delete", name=".images.delete", methods={"POST"})
      * @param Product $product
      * @param Request $request
-     * @param Photos\Delete\Handler $handler
+     * @param Images\Delete\Handler $handler
      * @return Response
      */
-    public function deletePhoto(Product $product, Request $request, Photos\Delete\Handler $handler): Response
+    public function deletePhoto(Product $product, Request $request, Images\Delete\Handler $handler): Response
     {
-        if (!$this->isCsrfTokenValid('photo', $request->request->get('token'))) {
-            return $this->redirectToRoute('admin.products.photos', ['id' => $product->getId()]);
+        if (!$this->isCsrfTokenValid('image', $request->request->get('token'))) {
+            return $this->redirectToRoute('admin.products.images', ['id' => $product->getId()]);
         }
 
-        $command = new Photos\Delete\Command($product->getId(), $request->request->get('fileName'));
+        $command = new Images\Delete\Command($product->getId(), $request->request->get('fileName'));
 
         try {
             $handler->handle($command);
@@ -175,7 +176,22 @@ class ProductsController extends AbstractController
             $this->addFlash(self::ERROR_FLASH_KEY, $e->getMessage());
         }
 
-        return $this->redirectToRoute('admin.products.photos', ['id' => $product->getId()]);
+        return $this->redirectToRoute('admin.products.images', ['id' => $product->getId()]);
+    }
+
+    /**
+     * @Route("/photos/{id}/sort", name=".images.sort", methods={"POST"})
+     * @param Request $request
+     * @param Product $product
+     * @return Response
+     */
+    public function photosSort(Request $request, Product $product, Images\Sort\Handler $handler): Response
+    {
+        $response = new Response();
+        $response->setStatusCode(Response::HTTP_OK);
+        $order = $handler->handle($product, $request->getContent());
+        $response->setContent(json_encode($order));
+        return $response;
     }
 
     /**

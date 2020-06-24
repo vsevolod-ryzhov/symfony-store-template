@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\Domain\Product\UseCase\Photos\Delete;
+namespace App\Domain\Product\UseCase\Images\Delete;
 
 use App\Domain\Product\Entity\Product;
 use Symfony\Component\Validator\Constraints as Assert;

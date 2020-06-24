@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\Domain\Product\UseCase\Photos\Upload;
+namespace App\Domain\Product\UseCase\Images\Upload;
 
 
 use Symfony\Component\Form\AbstractType;

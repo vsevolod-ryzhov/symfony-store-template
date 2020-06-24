@@ -98,6 +98,12 @@ class Product
      */
     private $meta;
 
+    /**
+     * @var string|null
+     * @ORM\Column(type="json", name="image_order", nullable=true)
+     */
+    private $imageOrder;
+
     public static function create(
         DateTimeImmutable $createdDate,
         string $title,
@@ -256,5 +262,21 @@ class Product
     public function getMeta(): Meta
     {
         return $this->meta;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageOrder(): ?string
+    {
+        return $this->imageOrder;
+    }
+
+    /**
+     * @param string|null $imageOrder
+     */
+    public function setImageOrder(?string $imageOrder): void
+    {
+        $this->imageOrder = $imageOrder;
     }
 }
