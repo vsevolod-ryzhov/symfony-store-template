@@ -28,7 +28,7 @@ class Handler
         $this->image = $image;
     }
 
-    public function handle(Product $product, string $order): array
+    public function handle(Product $product, string $order): void
     {
         $images = $this->image->getProductImages($product);
         $file_names = [];
@@ -46,6 +46,5 @@ class Handler
 
         $product->setImageOrder(json_encode($order));
         $this->em->flush();
-        return $order;
     }
 }

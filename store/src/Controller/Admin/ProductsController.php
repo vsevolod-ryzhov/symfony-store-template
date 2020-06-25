@@ -183,14 +183,14 @@ class ProductsController extends AbstractController
      * @Route("/photos/{id}/sort", name=".images.sort", methods={"POST"})
      * @param Request $request
      * @param Product $product
+     * @param Images\Sort\Handler $handler
      * @return Response
      */
     public function photosSort(Request $request, Product $product, Images\Sort\Handler $handler): Response
     {
         $response = new Response();
         $response->setStatusCode(Response::HTTP_OK);
-        $order = $handler->handle($product, $request->getContent());
-        $response->setContent(json_encode($order));
+        $handler->handle($product, $request->getContent());
         return $response;
     }
 
