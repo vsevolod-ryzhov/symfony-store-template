@@ -33,27 +33,6 @@ class Image
         return $imageOrders;
     }
 
-    /**
-     * @param $imageOrders
-     * @param $fileName
-     * @param int $counter
-     * @return false|int|string
-     */
-    private function getImageKey($imageOrders, $fileName, int $counter)
-    {
-        if ($imageOrders === null) {
-            $key = $counter; // no sort order provided
-        } else {
-            // sort order provided for all or some images
-            $key = array_search($fileName, $imageOrders, true);
-            if ($key === false) {
-                $key = uniqid('', false);
-            }
-        }
-
-        return $key;
-    }
-
     public function getProductImages(Product $product): array
     {
         $imageOrders = $this->getImageOrders($product);
@@ -66,20 +45,30 @@ class Image
         $finder->files()->in($dirName);
 
         if ($finder->hasResults()) {
-            $i = 0;
             $files = [];
+            $unsortedFiles = [];
             foreach ($finder as $file) {
                 $fileName = $file->getRelativePathname();
-                // set images key to simple counter value if no order provided or based on sort order
-                $key = $this->getImageKey($imageOrders, $fileName, $i);
-                $files[$key] = new ImageItem(
+
+                $imageObject = new ImageItem(
                     $fileName,
                     $file->getRealPath(),
                     str_replace($this->params->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public', '', $file->getRealPath())
                 );
-                $i++;
+
+                if ($imageOrders && in_array($fileName, $imageOrders, true)) {
+                    // if sort order provided for file
+                    $files[array_search($fileName, $imageOrders, true)] = $imageObject;
+                } else {
+                    $unsortedFiles[] = $imageObject;
+                }
             }
             ksort($files);
+
+            // add all files without provided sort order
+            foreach ($unsortedFiles as $unsortedFile) {
+                $files[] = $unsortedFile;
+            }
             return $files;
         }
 
