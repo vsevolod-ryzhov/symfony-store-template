@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 
+use App\Domain\Category\Entity\Category;
 use App\Domain\Product\Entity\Meta;
 use App\Domain\Product\Entity\Price;
 use App\Domain\Product\Entity\Product;
@@ -45,6 +46,10 @@ class ProductFixture extends Fixture
             new Meta("Тестовый товар, созданный автоматически"),
             1
         );
+
+        /* @var $product_category Category */
+        $product_category = $this->getReference(CategoryFixture::IOS_CATEGORY);
+        $product->setCategory($product_category);
 
         $manager->persist($product);
         $manager->flush();

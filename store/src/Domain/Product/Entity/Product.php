@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Domain\Product\Entity;
 
 
+use App\Domain\Category\Entity\Category;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -84,13 +85,13 @@ class Product
      * @var bool
      * @ORM\Column(type="boolean", name="is_deleted")
      */
-    private $isDeleted;
+    private $isDeleted = false;
 
     /**
      * @var integer
      * @ORM\Column(type="integer")
      */
-    private $sort;
+    private $sort = 1;
 
     /**
      * @var Meta
@@ -103,6 +104,12 @@ class Product
      * @ORM\Column(type="json", name="image_order", nullable=true)
      */
     private $imageOrder;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Domain\Category\Entity\Category", inversedBy="products")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $category;
 
     public static function create(
         DateTimeImmutable $createdDate,
@@ -278,5 +285,21 @@ class Product
     public function setImageOrder(?string $imageOrder): void
     {
         $this->imageOrder = $imageOrder;
+    }
+
+    /**
+     * @return null|Category
+     */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setCategory(Category $category): void
+    {
+        $this->category = $category;
     }
 }
