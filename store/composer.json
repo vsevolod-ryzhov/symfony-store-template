@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-pdo": "*",
         "friendsofsymfony/ckeditor-bundle": "^2.2",
         "gedmo/doctrine-extensions": "^2.4",
         "knplabs/knp-paginator-bundle": "^5.2",

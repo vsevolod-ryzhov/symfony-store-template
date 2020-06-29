@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Domain\Product\UseCase\Edit;
 
 
+use App\Domain\Category\CategoryRepository;
 use App\Domain\Product\Entity\Meta;
 use App\Domain\Product\Entity\Price;
 use App\Domain\Product\ProductQuery;
@@ -36,17 +37,34 @@ class Handler
      */
     private $slugger;
 
-    public function __construct(EntityManagerInterface $em, ProductRepository $repository, ProductQuery $query, SluggerInterface $slugger)
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        ProductRepository $repository,
+        ProductQuery $query,
+        SluggerInterface $slugger,
+        CategoryRepository $categoryRepository
+    )
     {
         $this->em = $em;
         $this->repository = $repository;
         $this->query = $query;
         $this->slugger = $slugger;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function handle(Command $command): void
     {
         $product = $this->repository->get($command->id);
+
+        $category = null;
+        if (!empty($command->category)) {
+            $category = $this->categoryRepository->get($command->category);
+        }
 
         $name = $command->url ?: $command->name;
         $slug = $this->slugger->slug($name)->lower()->toString();
@@ -64,7 +82,8 @@ class Handler
             $command->description,
             new Meta($command->metaName, $command->metaKeywords, $command->metaDescription),
             $sort,
-            $command->isDeleted
+            $command->isDeleted,
+            $category
         );
 
         $this->em->flush();

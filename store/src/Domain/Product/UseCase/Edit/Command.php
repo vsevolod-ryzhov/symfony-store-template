@@ -100,11 +100,17 @@ class Command
     public $metaDescription;
 
     /**
+     * @var string
+     */
+    public $category;
+
+    /**
      * Command constructor.
      * @param Product $product
      */
     public function __construct(Product $product)
     {
+        $category = $product->getCategory();
         $this->id = $product->getId();
         $this->name = $product->getName();
         $this->url = $product->getUrl();
@@ -119,6 +125,7 @@ class Command
         $this->metaDescription = $product->getMeta()->getDescription();
         $this->isDeleted = $product->isDeleted();
         $this->sort = $product->getSort();
+        $this->category = ($category !== null) ? $category->getId() : '';
     }
 
 

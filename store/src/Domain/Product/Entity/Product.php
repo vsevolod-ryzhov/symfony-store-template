@@ -151,7 +151,8 @@ class Product
         ?string $description,
         Meta $meta,
         int $sort,
-        bool $isDeleted
+        bool $isDeleted,
+        ?Category $category
     ): void
     {
         $this->updatedDate = $updatedDate;
@@ -165,6 +166,7 @@ class Product
         $this->meta = $meta;
         $this->sort = $sort;
         $this->isDeleted = $isDeleted;
+        $this->setCategory($category);
     }
 
     /**
@@ -296,9 +298,9 @@ class Product
     }
 
     /**
-     * @param Category $category
+     * @param ?Category $category
      */
-    public function setCategory(Category $category): void
+    public function setCategory(?Category $category): void
     {
         $this->category = $category;
     }

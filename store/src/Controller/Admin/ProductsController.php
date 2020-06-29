@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 
+use App\Domain\Category\Service\CategoryDecorator;
 use App\Domain\Product\Entity\Product;
 use App\Domain\Product\Filter\ProductIndex;
 use App\Domain\Product\ProductQuery;
@@ -202,7 +203,8 @@ class ProductsController extends AbstractController
     public function show(Product $product): Response
     {
         return $this->render('app/admin/products/show.html.twig', [
-            'product' => $product
+            'product' => $product,
+            'category_full_name' => ($product->getCategory() !== null) ? CategoryDecorator::getFullName($product->getCategory(), ' \ ', true) : null
         ]);
     }
 }
