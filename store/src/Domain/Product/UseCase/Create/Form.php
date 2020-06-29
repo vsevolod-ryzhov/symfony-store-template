@@ -17,7 +17,7 @@ class Form extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', Type\TextType::class, [
+            ->add('name', Type\TextType::class, [
                 'label' => 'Название'
             ])
             ->add('url', Type\TextType::class, [
@@ -43,7 +43,7 @@ class Form extends AbstractType
                 'label' => 'Описание',
                 'required' => false
             ])
-            ->add('metaTitle', Type\TextType::class, [
+            ->add('metaName', Type\TextType::class, [
                 'label' => 'Мета заголовок',
                 'required' => false
             ])

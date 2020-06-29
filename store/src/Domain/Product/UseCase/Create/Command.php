@@ -17,7 +17,7 @@ class Command
      *      allowEmptyString = false
      * )
      */
-    public $title;
+    public $name;
 
     /**
      * @Assert\NotBlank()
@@ -70,7 +70,7 @@ class Command
     /**
      * @var string
      */
-    public $metaTitle;
+    public $metaName;
 
     /**
      * @var string

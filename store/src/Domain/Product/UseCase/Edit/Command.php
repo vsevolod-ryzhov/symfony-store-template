@@ -23,7 +23,7 @@ class Command
      *      allowEmptyString = false
      * )
      */
-    public $title;
+    public $name;
 
     /**
      * @Assert\NotBlank()
@@ -87,7 +87,7 @@ class Command
     /**
      * @var string
      */
-    public $metaTitle;
+    public $metaName;
 
     /**
      * @var string
@@ -106,7 +106,7 @@ class Command
     public function __construct(Product $product)
     {
         $this->id = $product->getId();
-        $this->title = $product->getTitle();
+        $this->name = $product->getName();
         $this->url = $product->getUrl();
         $this->sku = $product->getSku();
         $this->price = $product->getPrice()->getPrice();
@@ -114,7 +114,7 @@ class Command
         $this->warehouse = $product->getWarehouse();
         $this->weight = $product->getWeight();
         $this->description = $product->getDescription();
-        $this->metaTitle = $product->getMeta()->getTitle();
+        $this->metaName = $product->getMeta()->getName();
         $this->metaKeywords = $product->getMeta()->getKeywords();
         $this->metaDescription = $product->getMeta()->getDescription();
         $this->isDeleted = $product->isDeleted();

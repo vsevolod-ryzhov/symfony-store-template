@@ -33,11 +33,11 @@ class ProductFixture extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        $title = 'Тестовый товар';
+        $name = 'Тестовый товар';
         $product = Product::create(
             new DateTimeImmutable(),
-            $title,
-            $this->slugger->slug($title)->lower()->toString(),
+            $name,
+            $this->slugger->slug($name)->lower()->toString(),
             '123456789',
             new Price(1000, 2000),
             10,

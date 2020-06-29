@@ -16,7 +16,7 @@ class Meta
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    private $title;
+    private $name;
 
     /**
      * @var string|null
@@ -30,9 +30,9 @@ class Meta
      */
     private $description;
 
-    public function __construct(?string $title = null, ?string $keywords = null, ?string $description = null)
+    public function __construct(?string $name = null, ?string $keywords = null, ?string $description = null)
     {
-        $this->title = $title;
+        $this->name = $name;
         $this->keywords = $keywords;
         $this->description = $description;
     }
@@ -40,15 +40,15 @@ class Meta
     public function __toString(): string
     {
         /// TODO: create twig extension for pretty output
-        return "$this->title\n$this->keywords\n$this->description";
+        return "$this->name\n$this->keywords\n$this->description";
     }
 
     /**
      * @return string|null
      */
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**

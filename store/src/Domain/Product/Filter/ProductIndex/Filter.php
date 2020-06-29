@@ -11,7 +11,7 @@ class Filter
     public $id;
     public $created_date;
     public $updated_date;
-    public $title;
+    public $name;
     public $url;
     public $sku;
     public $price_price;

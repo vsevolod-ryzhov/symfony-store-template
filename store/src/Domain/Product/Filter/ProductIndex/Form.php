@@ -40,7 +40,7 @@ class Form extends AbstractType
                         'onchange' => 'this.form.submit()'
                     ]
                 ])
-            ->add('title', Type\TextType::class, ['required' => false, 'attr' => [
+            ->add('name', Type\TextType::class, ['required' => false, 'attr' => [
                 'placeholder' => 'Название',
                 'onchange' => 'this.form.submit()',
             ]])

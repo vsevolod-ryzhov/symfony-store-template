@@ -41,9 +41,9 @@ class Product
 
     /**
      * @var string
-     * @ORM\Column(type="string", name="title", length=255)
+     * @ORM\Column(type="string", name="name", length=255)
      */
-    private $title;
+    private $name;
 
     /**
      * @var string
@@ -113,7 +113,7 @@ class Product
 
     public static function create(
         DateTimeImmutable $createdDate,
-        string $title,
+        string $name,
         string $url,
         string $sku,
         Price $price,
@@ -127,7 +127,7 @@ class Product
         $product = new self();
         $product->createdDate = $createdDate;
         $product->updatedDate = $createdDate;
-        $product->title = $title;
+        $product->name = $name;
         $product->url = $url;
         $product->sku = $sku;
         $product->price = $price;
@@ -142,7 +142,7 @@ class Product
 
     public function update(
         DateTimeImmutable $updatedDate,
-        string $title,
+        string $name,
         string $url,
         string $sku,
         Price $price,
@@ -155,7 +155,7 @@ class Product
     ): void
     {
         $this->updatedDate = $updatedDate;
-        $this->title = $title;
+        $this->name = $name;
         $this->url = $url;
         $this->sku = $sku;
         $this->price = $price;
@@ -194,9 +194,9 @@ class Product
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getName(): string
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**

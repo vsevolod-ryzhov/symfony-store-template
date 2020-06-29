@@ -44,7 +44,7 @@ class ProductQuery
                 'id',
                 'created_date',
                 'updated_date',
-                'title',
+                'name',
                 'url',
                 'sku',
                 'price_price',
@@ -59,7 +59,7 @@ class ProductQuery
             $query->setParameter(':id', $filter->id);
         }
 
-        if (!in_array($sort, ['id', 'created_date', 'updated_date', 'title', 'url', 'sku', 'price_price', 'warehouse', 'is_deleted'], true)) {
+        if (!in_array($sort, ['id', 'created_date', 'updated_date', 'name', 'url', 'sku', 'price_price', 'warehouse', 'is_deleted'], true)) {
             throw new UnexpectedValueException('Невозможно сортировать по полю ' . $sort);
         }
 

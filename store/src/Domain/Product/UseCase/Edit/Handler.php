@@ -48,21 +48,21 @@ class Handler
     {
         $product = $this->repository->get($command->id);
 
-        $title = $command->url ?: $command->title;
-        $slug = $this->slugger->slug($title)->lower()->toString();
+        $name = $command->url ?: $command->name;
+        $slug = $this->slugger->slug($name)->lower()->toString();
 
         $sort = $command->sort ?: $this->query->getMaxSort() + 1;
 
         $product->update(
             new DateTimeImmutable(),
-            $command->title,
+            $command->name,
             $slug,
             $command->sku,
             new Price($command->price, $command->priceOld),
             $command->warehouse,
             $command->weight,
             $command->description,
-            new Meta($command->metaTitle, $command->metaKeywords, $command->metaDescription),
+            new Meta($command->metaName, $command->metaKeywords, $command->metaDescription),
             $sort,
             $command->isDeleted
         );
