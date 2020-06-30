@@ -32,9 +32,30 @@ class CategoryQuery
                 'name'
             )
             ->from('product_categories')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->execute();
 
         return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+    }
+
+    /**
+     * @return array
+     */
+    public function all(): array
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'name',
+                'tree_root',
+                'lvl',
+                'lft',
+                'rgt'
+            )
+            ->from('product_categories')
+            ->orderBy('id', 'asc')
+            ->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

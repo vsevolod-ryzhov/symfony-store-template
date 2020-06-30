@@ -10,6 +10,13 @@ use App\Domain\Category\Entity\Category;
 
 class CategoryDecorator
 {
+    /**
+     * Get name of category with all parent categories names
+     * @param Category $category
+     * @param string $separator
+     * @param bool $reverse
+     * @return string
+     */
     public static function getFullName(Category $category, string $separator = " / ", $reverse = false): string
     {
         $names = [];
@@ -28,5 +35,20 @@ class CategoryDecorator
         }
 
         return implode($separator, $names);
+    }
+
+    /**
+     * Get human readable categories list
+     * @param array $categories
+     * @return array
+     */
+    public static function listPrettyPrint(array $categories): array
+    {
+        $list = [];
+        foreach ($categories as $category) {
+            $list[$category['id']] = str_repeat('-', $category['lvl']) . ' ' . $category['name'];
+        }
+
+        return $list;
     }
 }

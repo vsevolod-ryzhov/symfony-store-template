@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Domain\Product\UseCase\Create;
 
 
+use App\Domain\Category\CategoryRepository;
 use App\Domain\Product\Entity\Meta;
 use App\Domain\Product\Entity\Price;
 use App\Domain\Product\Entity\Product;
@@ -29,21 +30,35 @@ class Handler
      * @var ProductRepository
      */
     private $repository;
+
     /**
      * @var ProductQuery
      */
     private $query;
+
     /**
      * @var SluggerInterface
      */
     private $slugger;
 
-    public function __construct(EntityManagerInterface $em, ProductRepository $repository, ProductQuery $query, SluggerInterface $slugger)
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        ProductRepository $repository,
+        ProductQuery $query,
+        SluggerInterface $slugger,
+        CategoryRepository $categoryRepository
+    )
     {
         $this->em = $em;
         $this->repository = $repository;
         $this->query = $query;
         $this->slugger = $slugger;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function handle(Command $command): void
@@ -53,6 +68,11 @@ class Handler
         }
         if ($this->repository->hasBySku($command->sku)) {
             throw new DomainException(self::PRODUCT_EXISTS_MESSAGE);
+        }
+
+        $category = null;
+        if (!empty($command->category)) {
+            $category = $this->categoryRepository->get((int)$command->category);
         }
 
         $name = $command->url ?: $command->name;
@@ -71,7 +91,8 @@ class Handler
             $command->weight,
             $command->description,
             new Meta($command->metaName, $command->metaKeywords, $command->metaDescription),
-            $sort
+            $sort,
+            $category
         );
 
         $this->repository->add($product);

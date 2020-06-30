@@ -7,6 +7,7 @@ namespace App\Domain\Product\UseCase\Edit;
 
 
 use App\Domain\Category\CategoryQuery;
+use App\Domain\Category\Service\CategoryDecorator;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
@@ -78,7 +79,7 @@ class Form extends AbstractType
             ->add('category', Type\ChoiceType::class, [
                 'label' => 'Категория',
                 'required' => false,
-                'choices' => ['' => ''] + array_flip($this->categoryQuery->allList())
+                'choices' => ['' => ''] + array_flip(CategoryDecorator::listPrettyPrint($this->categoryQuery->all()))
             ]);
     }
 

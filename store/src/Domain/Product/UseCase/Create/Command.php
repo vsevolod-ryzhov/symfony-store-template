@@ -81,4 +81,9 @@ class Command
      * @var string
      */
     public $metaDescription;
+
+    /**
+     * @var string
+     */
+    public $category;
 }

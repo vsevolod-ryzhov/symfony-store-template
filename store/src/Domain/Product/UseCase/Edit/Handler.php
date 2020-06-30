@@ -63,7 +63,7 @@ class Handler
 
         $category = null;
         if (!empty($command->category)) {
-            $category = $this->categoryRepository->get($command->category);
+            $category = $this->categoryRepository->get((int)$command->category);
         }
 
         $name = $command->url ?: $command->name;

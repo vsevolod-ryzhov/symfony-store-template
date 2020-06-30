@@ -6,6 +6,8 @@ declare(strict_types=1);
 namespace App\Domain\Product\UseCase\Create;
 
 
+use App\Domain\Category\CategoryQuery;
+use App\Domain\Category\Service\CategoryDecorator;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
@@ -14,6 +16,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Form extends AbstractType
 {
+    /**
+     * @var CategoryQuery
+     */
+    private $categoryQuery;
+
+    public function __construct(CategoryQuery $categoryQuery)
+    {
+        $this->categoryQuery = $categoryQuery;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -54,6 +66,11 @@ class Form extends AbstractType
             ->add('metaDescription', Type\TextType::class, [
                 'label' => 'Мета описание',
                 'required' => false
+            ])
+            ->add('category', Type\ChoiceType::class, [
+                'label' => 'Категория',
+                'required' => false,
+                'choices' => ['' => ''] + array_flip(CategoryDecorator::listPrettyPrint($this->categoryQuery->all()))
             ]);
     }
 

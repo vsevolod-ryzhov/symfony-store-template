@@ -121,7 +121,8 @@ class Product
         float $weight,
         ?string $description,
         Meta $meta,
-        int $sort
+        int $sort,
+        ?Category $category
     ): self
     {
         $product = new self();
@@ -137,6 +138,7 @@ class Product
         $product->meta = $meta;
         $product->isDeleted = false;
         $product->sort = $sort;
+        $product->setCategory($category);
         return $product;
     }
 

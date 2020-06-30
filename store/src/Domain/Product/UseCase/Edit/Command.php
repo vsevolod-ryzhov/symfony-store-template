@@ -125,7 +125,7 @@ class Command
         $this->metaDescription = $product->getMeta()->getDescription();
         $this->isDeleted = $product->isDeleted();
         $this->sort = $product->getSort();
-        $this->category = ($category !== null) ? $category->getId() : '';
+        $this->category = ($category !== null) ? (string)$category->getId() : '';
     }
 
 
