@@ -7,11 +7,15 @@ namespace App\Controller\Admin;
 
 
 use App\Domain\Category\CategoryQuery;
+use App\Domain\Category\CategoryRepository;
 use App\Domain\Category\UseCase\Create;
 use App\Domain\Category\UseCase\Edit;
+use App\Domain\Category\UseCase\Sort;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Filter\CategoryIndex;
 use App\Domain\Category\Service\CategoryDecorator;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use DomainException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,6 +66,56 @@ class CategoriesController extends AbstractController
             'categories' => $category_list,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/sortable", name=".sortable")
+     * @param EntityManagerInterface $em
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     * @throws EntityNotFoundException
+     */
+    public function sortable(EntityManagerInterface $em, CategoryRepository $categoryRepository): Response
+    {
+        $repository = $em->getRepository(Category::class);
+        // TODO: hide this call
+        $category_list = $repository->childrenHierarchy(
+            $categoryRepository->getRoot(),
+            false,
+            [
+                'decorate' => true,
+                'rootOpen' => '<ul class="nested-sortable nested-list-group">',
+                'nodeDecorator' => static function ($node)
+                {
+                    return "<span><i class=\"fa fa-arrows\"></i> $node[name]</span>";
+                },
+                'childOpen' => static function ($node)
+                {
+                    return "<li data-id=\"$node[id]\">";
+                }
+            ],
+            false
+        );
+
+        return $this->render('app/admin/categories/sortable.html.twig', [
+            'categories' => $category_list
+        ]);
+    }
+
+    /**
+     * @Route("/sortable/sort", name=".sortable.sort", methods={"POST"})
+     * @param Request $request
+     * @param Sort\Handler $handler
+     * @return Response
+     */
+    public function sort(Request $request, Sort\Handler $handler): Response
+    {
+        $response = new Response();
+        $response->setStatusCode(Response::HTTP_OK);
+        // TODO: parse full tree in handler
+//        $handler->handle($request->getContent());
+        $response->setContent($request->getContent());
+        return $response;
     }
 
     /**

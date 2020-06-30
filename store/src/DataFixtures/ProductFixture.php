@@ -33,6 +33,9 @@ class ProductFixture extends Fixture
      */
     public function load(ObjectManager $manager)
     {
+        /* @var $product_category Category */
+        $product_category = $this->getReference(CategoryFixture::IOS_CATEGORY);
+
         $name = 'Тестовый товар';
         $product = Product::create(
             new DateTimeImmutable(),
@@ -44,12 +47,9 @@ class ProductFixture extends Fixture
             100,
             'Описание первого тестового товара, созданного автоматически',
             new Meta("Тестовый товар, созданный автоматически"),
-            1
+            1,
+            $product_category
         );
-
-        /* @var $product_category Category */
-        $product_category = $this->getReference(CategoryFixture::IOS_CATEGORY);
-        $product->setCategory($product_category);
 
         $manager->persist($product);
         $manager->flush();

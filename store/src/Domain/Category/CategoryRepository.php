@@ -43,6 +43,15 @@ class CategoryRepository
         return $category;
     }
 
+    public function getRoot(): Category
+    {
+        /** @var Category $category */
+        if (!$category = $this->repository->findOneBy(['parent' => null])) {
+            throw new EntityNotFoundException('Category not found');
+        }
+        return $category;
+    }
+
     /**
      * @param Category $category
      */

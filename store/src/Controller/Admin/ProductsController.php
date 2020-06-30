@@ -127,7 +127,8 @@ class ProductsController extends AbstractController
      * @Route("/photos/{id}", name=".images")
      * @param Request $request
      * @param Product $product
-     * @param Edit\Handler $handler
+     * @param Images\Upload\Handler $handler
+     * @param Image $image
      * @return Response
      */
     public function images(Request $request, Product $product, Images\Upload\Handler $handler, Image $image): Response

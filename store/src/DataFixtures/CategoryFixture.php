@@ -20,26 +20,21 @@ class CategoryFixture extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        $root = Category::create("Root");
-        $category_electronics = Category::create("Electronics");
-        $category_electronics->setParent($root);
+        $root = new Category();
+        $root->setName("Root");
 
-        $phones_category = Category::create('Phones');
-        $phones_category->setParent($category_electronics);
+        $category_electronics = Category::create("Electronics", $root);
 
-        $ios_category = Category::create("iOS");
-        $ios_category->setParent($phones_category);
-        $android_category = Category::create("Android");
-        $android_category->setParent($phones_category);
+        $phones_category = Category::create('Phones', $category_electronics);
 
-        $laptop_category = Category::create("Laptop");
-        $laptop_category->setParent($category_electronics);
+        $ios_category = Category::create("iOS", $phones_category);
+        $android_category = Category::create("Android", $phones_category);
 
-        $misc_category = Category::create("Misc");
-        $misc_category->setParent($root);
+        $laptop_category = Category::create("Laptop", $category_electronics);
 
-        $adapters_category = Category::create("Adapters");
-        $adapters_category->setParent($misc_category);
+        $misc_category = Category::create("Misc", $root);
+
+        $adapters_category = Category::create("Adapters", $misc_category);
 
         $manager->persist($root);
         $manager->persist($category_electronics);
