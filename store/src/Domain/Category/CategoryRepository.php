@@ -42,4 +42,12 @@ class CategoryRepository
         }
         return $category;
     }
+
+    /**
+     * @param Category $category
+     */
+    public function add(Category $category): void
+    {
+        $this->em->persist($category);
+    }
 }

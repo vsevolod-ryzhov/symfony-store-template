@@ -14,7 +14,6 @@ use App\Domain\Product\Service\Image;
 use App\Domain\Product\UseCase\Create;
 use App\Domain\Product\UseCase\Edit;
 use App\Domain\Product\UseCase\Images;
-use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -204,7 +203,7 @@ class ProductsController extends AbstractController
     {
         return $this->render('app/admin/products/show.html.twig', [
             'product' => $product,
-            'category_full_name' => ($product->getCategory() !== null) ? CategoryDecorator::getFullName($product->getCategory(), ' \ ', true) : null
+            'category_full_name' => CategoryDecorator::getFullName($product->getCategory(), ' \ ', true)
         ]);
     }
 }

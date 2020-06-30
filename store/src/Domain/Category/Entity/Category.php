@@ -86,11 +86,17 @@ class Category
         $this->products = new ArrayCollection();
     }
 
-    public static function create(string $name): self
+    public static function create(string $name, self $parent): self
     {
         $category = new self();
         $category->name = $name;
+        $category->setParent($parent);
         return $category;
+    }
+
+    public function update(string $name): void
+    {
+        $this->name = $name;
     }
 
     /**

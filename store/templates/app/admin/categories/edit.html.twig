@@ -1,0 +1,25 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Редактировать категорию #{{ category.id }}{% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb border-0 m-0">
+        <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin.categories') }}">Категории</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin.categories.show', {'id': category.id}) }}">Категория #{{ category.id }}</a></li>
+        <li class="breadcrumb-item active">Редактировать категорию #{{ category.id }}</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">Редактировать</button>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Категории{% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb border-0 m-0">
+        <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">Главная</a></li>
+        <li class="breadcrumb-item active">Категории</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+    <div class="mb-3">
+        <a href="{{ path('admin.categories.create') }}" class="btn btn-success">Добавить категорию</a>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Список категорий</div>
+        <div class="card-body">
+            <table class="table table-responsive-sm">
+                <thead>
+                {{ form_start(form) }}
+                <tr>
+                    <th>{{ knp_pagination_sortable(categories, 'ID', 'id') }} {{ form_widget(form.id, {'attr': {'class': 'form-control'}}) }}</th>
+                    <th>{{ knp_pagination_sortable(categories, 'Родитель', 'parent') }} {{ form_widget(form.parent, {'attr': {'class': 'form-control'}}) }}</th>
+                    <th>{{ knp_pagination_sortable(categories, 'Название', 'name') }} {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}</th>
+                </tr>
+                {{ form_end(form) }}
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td><a href="{{ path('admin.categories.show', {'id': category.id}) }}">{{ category.id }}</a></td>
+                        <td>{{ product_category(category.parent_id) }}</td>
+                        <td>{{ category.name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(categories) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

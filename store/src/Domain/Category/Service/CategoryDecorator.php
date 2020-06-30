@@ -12,13 +12,17 @@ class CategoryDecorator
 {
     /**
      * Get name of category with all parent categories names
-     * @param Category $category
+     * @param ?Category $category
      * @param string $separator
      * @param bool $reverse
      * @return string
      */
-    public static function getFullName(Category $category, string $separator = " / ", $reverse = false): string
+    public static function getFullName(?Category $category, string $separator = " / ", $reverse = false): string
     {
+        if ($category === null) {
+            return '';
+        }
+
         $names = [];
         $names[] = $category->getName();
         $parent = $category->getParent();

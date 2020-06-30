@@ -79,7 +79,7 @@ class Form extends AbstractType
             ->add('category', Type\ChoiceType::class, [
                 'label' => 'Категория',
                 'required' => false,
-                'choices' => ['' => ''] + array_flip(CategoryDecorator::listPrettyPrint($this->categoryQuery->all()))
+                'choices' => ['' => ''] + array_flip(CategoryDecorator::listPrettyPrint($this->categoryQuery->allTree()))
             ]);
     }
 
