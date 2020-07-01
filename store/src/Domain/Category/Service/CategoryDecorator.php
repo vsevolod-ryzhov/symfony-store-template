@@ -7,6 +7,7 @@ namespace App\Domain\Category\Service;
 
 
 use App\Domain\Category\Entity\Category;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
 class CategoryDecorator
 {
@@ -54,5 +55,25 @@ class CategoryDecorator
         }
 
         return $list;
+    }
+
+    public static function getHierarchyForSorting(NestedTreeRepository $repository, Category $root) {
+        return $repository->childrenHierarchy(
+            $root,
+            false,
+            [
+                'decorate' => true,
+                'rootOpen' => '<ul class="nested-sortable nested-list-group">',
+                'nodeDecorator' => static function ($node)
+                {
+                    return "<span><i class=\"fa fa-arrows\"></i> $node[name]</span>";
+                },
+                'childOpen' => static function ($node)
+                {
+                    return "<li data-id=\"$node[id]\">";
+                }
+            ],
+            false
+        );
     }
 }

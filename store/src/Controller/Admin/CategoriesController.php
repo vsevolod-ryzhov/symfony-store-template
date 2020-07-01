@@ -77,24 +77,9 @@ class CategoriesController extends AbstractController
      */
     public function sortable(EntityManagerInterface $em, CategoryRepository $categoryRepository): Response
     {
-        $repository = $em->getRepository(Category::class);
-        // TODO: hide this call
-        $category_list = $repository->childrenHierarchy(
-            $categoryRepository->getRoot(),
-            false,
-            [
-                'decorate' => true,
-                'rootOpen' => '<ul class="nested-sortable nested-list-group">',
-                'nodeDecorator' => static function ($node)
-                {
-                    return "<span><i class=\"fa fa-arrows\"></i> $node[name]</span>";
-                },
-                'childOpen' => static function ($node)
-                {
-                    return "<li data-id=\"$node[id]\">";
-                }
-            ],
-            false
+        $category_list = CategoryDecorator::getHierarchyForSorting(
+            $em->getRepository(Category::class),
+            $categoryRepository->getRoot()
         );
 
         return $this->render('app/admin/categories/sortable.html.twig', [
