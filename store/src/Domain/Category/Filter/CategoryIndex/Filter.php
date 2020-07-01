@@ -10,5 +10,6 @@ class Filter
 {
     public $id;
     public $name;
+    public $url;
     public $parent;
 }

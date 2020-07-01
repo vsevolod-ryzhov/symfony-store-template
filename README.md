@@ -11,5 +11,8 @@ Nearest development plans
 - [x] CRUD for users in admin section
 - [x] Some template for admin section
 - [x] src\Domain\Product\*
-- [ ] src\Domain\Category\*
-- [ ] relation between Product and Category
+- [x] src\Domain\Category\*
+- [x] relation between Product and Category
+- [ ] Product tags
+- [ ] Sample frontend
+- [ ] Orders

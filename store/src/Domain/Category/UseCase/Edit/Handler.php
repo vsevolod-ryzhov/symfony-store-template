@@ -9,6 +9,7 @@ namespace App\Domain\Category\UseCase\Edit;
 use App\Domain\Category\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class Handler
 {
@@ -21,14 +22,20 @@ class Handler
      * @var CategoryRepository
      */
     private $repository;
+    /**
+     * @var SluggerInterface
+     */
+    private $slugger;
 
     public function __construct(
         EntityManagerInterface $em,
-        CategoryRepository $repository
+        CategoryRepository $repository,
+        SluggerInterface $slugger
     )
     {
         $this->em = $em;
         $this->repository = $repository;
+        $this->slugger = $slugger;
     }
 
     public function handle(Command $command): void
@@ -42,7 +49,10 @@ class Handler
 
         $category->setParent($parent);
 
-        $category->update($command->name);
+        $url = $command->url ?: $command->name;
+        $slug = $this->slugger->slug($url)->lower()->toString();
+
+        $category->update($command->name, $slug);
 
         $this->em->flush();
     }

@@ -27,6 +27,15 @@ class Command
     public $name;
 
     /**
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      allowEmptyString = true
+     * )
+     */
+    public $url;
+
+    /**
      * @Assert\NotBlank()
      */
     public $parent;
@@ -43,6 +52,7 @@ class Command
 
         $this->id = $category->getId();
         $this->name = $category->getName();
+        $this->url = $category->getUrl();
         $this->parent = $category->getParent()->getId();
     }
 }

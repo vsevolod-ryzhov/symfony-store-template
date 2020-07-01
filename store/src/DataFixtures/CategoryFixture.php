@@ -21,20 +21,21 @@ class CategoryFixture extends Fixture
     public function load(ObjectManager $manager)
     {
         $root = new Category();
-        $root->setName("Root");
+        $root->setName('Root');
+        $root->setUrl('root');
 
-        $category_electronics = Category::create("Electronics", $root);
+        $category_electronics = Category::create('Electronics', 'electronics', $root);
 
-        $phones_category = Category::create('Phones', $category_electronics);
+        $phones_category = Category::create('Phones', 'phones', $category_electronics);
 
-        $ios_category = Category::create("iOS", $phones_category);
-        $android_category = Category::create("Android", $phones_category);
+        $ios_category = Category::create('iOS', 'ios', $phones_category);
+        $android_category = Category::create('Android', 'android', $phones_category);
 
-        $laptop_category = Category::create("Laptop", $category_electronics);
+        $laptop_category = Category::create('Laptop', 'laptop', $category_electronics);
 
-        $misc_category = Category::create("Misc", $root);
+        $misc_category = Category::create('Misc', 'misc', $root);
 
-        $adapters_category = Category::create("Adapters", $misc_category);
+        $adapters_category = Category::create('Adapters', 'adapters', $misc_category);
 
         $manager->persist($root);
         $manager->persist($category_electronics);

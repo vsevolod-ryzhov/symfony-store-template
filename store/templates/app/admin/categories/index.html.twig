@@ -25,6 +25,7 @@
                     <th>{{ knp_pagination_sortable(categories, 'ID', 'id') }} {{ form_widget(form.id, {'attr': {'class': 'form-control'}}) }}</th>
                     <th>{{ knp_pagination_sortable(categories, 'Родитель', 'parent') }} {{ form_widget(form.parent, {'attr': {'class': 'form-control'}}) }}</th>
                     <th>{{ knp_pagination_sortable(categories, 'Название', 'name') }} {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}</th>
+                    <th>{{ knp_pagination_sortable(categories, 'URL', 'url') }} {{ form_widget(form.url, {'attr': {'class': 'form-control'}}) }}</th>
                 </tr>
                 {{ form_end(form) }}
                 </thead>
@@ -34,6 +35,7 @@
                         <td><a href="{{ path('admin.categories.show', {'id': category.id}) }}">{{ category.id }}</a></td>
                         <td>{{ product_category(category.parent_id) }}</td>
                         <td>{{ category.name }}</td>
+                        <td>{{ category.url }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

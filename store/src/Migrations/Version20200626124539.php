@@ -21,7 +21,7 @@ final class Version20200626124539 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE product_categories_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE product_categories (id INT NOT NULL, tree_root INT DEFAULT NULL, parent_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, lft INT NOT NULL, lvl INT NOT NULL, rgt INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE product_categories (id INT NOT NULL, tree_root INT DEFAULT NULL, parent_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, url VARCHAR(255) NOT NULL, lft INT NOT NULL, lvl INT NOT NULL, rgt INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_A9941943A977936C ON product_categories (tree_root)');
         $this->addSql('CREATE INDEX IDX_A9941943727ACA70 ON product_categories (parent_id)');
         $this->addSql('CREATE INDEX lft_ix ON product_categories (lft)');

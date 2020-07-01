@@ -39,6 +39,11 @@ class Category
     private $name;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $url;
+
+    /**
      * @Gedmo\TreeLeft()
      * @ORM\Column(type="integer")
      */
@@ -86,17 +91,19 @@ class Category
         $this->products = new ArrayCollection();
     }
 
-    public static function create(string $name, self $parent): self
+    public static function create(string $name, string $url, self $parent): self
     {
         $category = new self();
         $category->name = $name;
+        $category->url = $url;
         $category->setParent($parent);
         return $category;
     }
 
-    public function update(string $name): void
+    public function update(string $name, string $url): void
     {
         $this->name = $name;
+        $this->url = $url;
     }
 
     /**
@@ -185,5 +192,21 @@ class Category
     public function getLvl(): ?int
     {
         return $this->lvl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl(string $url): void
+    {
+        $this->url = $url;
     }
 }

@@ -61,6 +61,7 @@ class CategoryQuery
             ->select(
                 'id',
                 'name',
+                'url',
                 'parent_id',
                 'tree_root',
                 'lvl',
@@ -106,6 +107,7 @@ class CategoryQuery
             ->select(
                 'id',
                 'name',
+                'url',
                 'tree_root',
                 'lvl',
                 'lft',

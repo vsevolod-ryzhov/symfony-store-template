@@ -38,6 +38,10 @@ class Form extends AbstractType
             ->add('name', Type\TextType::class, [
                 'label' => 'Название'
             ])
+            ->add('url', Type\TextType::class, [
+                'label' => 'URL',
+                'required' => false
+            ])
             ->add('parent', Type\ChoiceType::class, [
                 'label' => 'Родительская категория',
                 'choices' => array_flip(CategoryDecorator::listPrettyPrint($category_list))

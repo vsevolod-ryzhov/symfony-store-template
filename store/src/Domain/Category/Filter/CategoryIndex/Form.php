@@ -36,6 +36,10 @@ class Form extends AbstractType
                 'placeholder' => 'Название',
                 'onchange' => 'this.form.submit()',
             ]])
+            ->add('url', Type\TextType::class, ['required' => false, 'attr' => [
+                'placeholder' => 'URL',
+                'onchange' => 'this.form.submit()',
+            ]])
             ->add('parent', Type\ChoiceType::class, [
                 'required' => false,
                 'choices' => ['' => ''] + array_flip(CategoryDecorator::listPrettyPrint($this->query->allTree())),

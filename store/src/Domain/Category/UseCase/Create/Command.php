@@ -20,6 +20,15 @@ class Command
     public $name;
 
     /**
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      allowEmptyString = true
+     * )
+     */
+    public $url;
+
+    /**
      * @Assert\NotBlank()
      */
     public $parent;
