@@ -28,21 +28,6 @@ const elNestedSortable = document.getElementsByClassName('nested-sortable');
 if (elNestedSortable) {
     const root = document.getElementById('nested-sortable-root');
 
-    const nestedQuery = '.nested-sortable';
-    const identifier = 'id';
-    function serialize(sortable) {
-        let serialized = [];
-        let children = [].slice.call(sortable.children);
-        for (let i in children) {
-            let nested = children[i].querySelector(nestedQuery);
-            serialized.push({
-                id: children[i].dataset[identifier],
-                children: nested ? serialize(nested) : []
-            });
-        }
-        return serialized
-    }
-
     for (let i = 0; i < elNestedSortable.length; i++) {
         let li_list = elNestedSortable[i].getElementsByTagName('li');
         for (let ii = 0; ii < li_list.length; ii++) {
@@ -59,12 +44,18 @@ if (elNestedSortable) {
             animation: 150,
             fallbackOnBody: true,
             swapThreshold: 0.65,
-            store: {
-                set: function (elements) {
-                    let request = createAjaxRequest(root.dataset.callback);
-                    // request.send(JSON.stringify(elements.toArray()));
-                    request.send(JSON.stringify(serialize(root.children[0])));
-                }
+            onEnd: function (/**Event*/evt) {
+                const moved = evt.item;
+                const prev = moved.previousSibling;
+                const next = moved.nextSibling;
+                const parent = moved.parentNode.parentNode;
+                const request = createAjaxRequest(root.dataset.callback);
+                request.send(JSON.stringify({
+                    'el': moved.dataset.id,
+                    'prev': prev ? prev.dataset.id : null,
+                    'next': next ? next.dataset.id : null,
+                    'parent': parent ? parent.dataset.id ? parent.dataset.id : null : null
+                }));
             }
         });
     }

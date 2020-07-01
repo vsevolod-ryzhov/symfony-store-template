@@ -112,9 +112,7 @@ class CategoriesController extends AbstractController
     {
         $response = new Response();
         $response->setStatusCode(Response::HTTP_OK);
-        // TODO: parse full tree in handler
-//        $handler->handle($request->getContent());
-        $response->setContent($request->getContent());
+        $handler->handle($request->getContent());
         return $response;
     }
 

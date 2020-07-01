@@ -9,7 +9,8 @@ namespace App\Domain\Category\UseCase\Sort;
 use App\Domain\Category\CategoryRepository;
 use App\Domain\Category\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
-use DomainException;
+use Doctrine\Persistence\ObjectRepository;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
 class Handler
 {
@@ -19,7 +20,7 @@ class Handler
     private $em;
 
     /**
-     * @var \Doctrine\Persistence\ObjectRepository|\Gedmo\Tree\Entity\Repository\NestedTreeRepository
+     * @var ObjectRepository|NestedTreeRepository
      */
     private $repository;
 
@@ -35,30 +36,21 @@ class Handler
         $this->categoryRepository = $categoryRepository;
     }
 
-    private function getParent(Category $category): Category
+    public function handle(string $sortedInfo): void
     {
-        $parent = $category->getParent();
-        if ($parent === null) {
-            throw new DomainException('Root category is not editable');
+        $sortedInfo = json_decode($sortedInfo, true);
+        $category = $this->categoryRepository->get((int)$sortedInfo['el']);
+        if ($sortedInfo['prev'] !== null) {
+            $prev = $this->categoryRepository->get((int)$sortedInfo['prev']);
+            $this->repository->persistAsNextSiblingOf($category, $prev);
+        } elseif ($sortedInfo['next'] !== null) {
+            $next = $this->categoryRepository->get((int)$sortedInfo['next']);
+            $this->repository->persistAsPrevSiblingOf($category, $next);
+        } elseif ($sortedInfo['parent'] !== null) {
+            $parent = $this->categoryRepository->get((int)$sortedInfo['parent']);
+            $this->repository->persistAsFirstChildOf($category, $parent);
         }
 
-        return $parent;
-    }
-
-    public function handle(string $sortedCategoryList): void
-    {
-        // TODO: this works only for one level changes in tree
-//        $sortedCategoryList = json_decode($sortedCategoryList, true);
-//        $parent = null;
-//        foreach ($sortedCategoryList as $item) {
-//            $category = $this->categoryRepository->get((int)$item);
-//            if ($parent === null) {
-//                $parent = $this->getParent($category);
-//                $this->repository->persistAsFirstChildOf($category, $parent);
-//            } else {
-//                $this->repository->persistAsLastChildOf($category, $parent);
-//            }
-//        }
-//        $this->em->flush();
+        $this->em->flush();
     }
 }
