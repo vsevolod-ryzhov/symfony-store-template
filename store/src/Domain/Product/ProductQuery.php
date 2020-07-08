@@ -67,4 +67,27 @@ class ProductQuery
 
         return $this->paginator->paginate($query, $page, $size);
     }
+
+    public function byCategory(int $category_id, int $page, int $size): PaginationInterface
+    {
+        $query = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'created_date',
+                'updated_date',
+                'name',
+                'url',
+                'sku',
+                'price_price',
+                'warehouse',
+                'is_deleted'
+            )
+            ->from('product_products')
+            ->orderBy('sort, created_date', 'desc');
+
+        $query->andWhere('category_id = :id');
+        $query->setParameter(':id', $category_id);
+
+        return $this->paginator->paginate($query, $page, $size);
+    }
 }
