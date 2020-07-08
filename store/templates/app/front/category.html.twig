@@ -1,6 +1,6 @@
 {% extends 'front.html.twig' %}
 
-{% block title %}Товары категории{% endblock %}
+{% block title %}Товары категории {{ category.name }}{% endblock %}
 
 {% block breadcrumbs %}
     <ol class="breadcrumb border-0 m-0">
@@ -10,10 +10,23 @@
 
 {% block categories_submenu %}
     <div class="dropdown-menu" aria-labelledby="categories-dropdown">
-        {{ categories|raw }}
+        {{ category_menu() }}
     </div>
 {% endblock %}
 
 {% block body %}
-
+    <h1>{{ category.name }}</h1>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-sm-6 col-md-3">
+                <div class="card">
+                    <div class="card-header">{{ product.name }}</div>
+                    <div class="card-body">
+                        <p>Артикул: {{ product.sku }}</p>
+                        <p>Цена: {{ product.price_price }} р</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
