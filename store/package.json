@@ -4,7 +4,7 @@
         "core-js": "^3.0.0",
         "node-sass": "^4.14.1",
         "regenerator-runtime": "^0.13.2",
-        "sass-loader": "^8.0.2",
+        "sass-loader": "^9.0.2",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -16,8 +16,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@coreui/coreui": "^3.2.0",
-        "@popperjs/core": "^2.4.0",
+        "@coreui/coreui": "^3.2.2",
+        "@popperjs/core": "^2.4.4",
         "bootstrap": "^4.5.0",
         "ckeditor": "^4.0.0",
         "font-awesome": "^4.7.0",
