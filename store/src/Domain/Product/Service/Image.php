@@ -22,22 +22,26 @@ class Image
         $this->params = $params;
     }
 
-    private function getImageOrders(Product $product): ?array
+    private function getImageOrders(?string $imageOrders)
     {
-        $imageOrders = null;
-        // get existing sort order if provided
-        if (!empty($product->getImageOrder())) {
-            $imageOrders = json_decode($product->getImageOrder(), true);
-        }
-
-        return $imageOrders;
+        return (!empty($imageOrders)) ? json_decode(trim(stripslashes($imageOrders), '"'), true) : null;
     }
 
-    public function getProductImages(Product $product): array
+    /**
+     * Get images for admin section where we get product entity
+     * @param Product $product
+     * @return array
+     */
+    public function getProductImagesByEntity(Product $product): array
     {
-        $imageOrders = $this->getImageOrders($product);
+        return $this->getProductImages((int)$product->getId(), $product->getImageOrder());
+    }
 
-        $dirName = $this->params->get('products_directory') . DIRECTORY_SEPARATOR . $product->getId();
+    public function getProductImages(int $productId, ?string $imageOrders): array
+    {
+        $parsedImageOrders = $this->getImageOrders($imageOrders);
+
+        $dirName = $this->params->get('products_directory') . DIRECTORY_SEPARATOR . $productId;
         if (!is_dir($dirName) && !mkdir($dirName) && !is_dir($dirName)) {
             throw new DomainException(sprintf('Directory "%s" was not created', $dirName));
         }
@@ -56,9 +60,9 @@ class Image
                     str_replace($this->params->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public', '', $file->getRealPath())
                 );
 
-                if ($imageOrders && in_array($fileName, $imageOrders, true)) {
+                if ($parsedImageOrders && in_array($fileName, $parsedImageOrders, true)) {
                     // if sort order provided for file
-                    $files[array_search($fileName, $imageOrders, true)] = $imageObject;
+                    $files[array_search($fileName, $parsedImageOrders, true)] = $imageObject;
                 } else {
                     $unsortedFiles[] = $imageObject;
                 }
@@ -74,4 +78,5 @@ class Image
 
         return [];
     }
+
 }

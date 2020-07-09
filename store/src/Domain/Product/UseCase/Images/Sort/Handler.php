@@ -30,7 +30,7 @@ class Handler
 
     public function handle(Product $product, string $order): void
     {
-        $images = $this->image->getProductImages($product);
+        $images = $this->image->getProductImagesByEntity($product);
         $file_names = [];
         foreach ($images as $image) {
             /* @var $image ImageItem */
