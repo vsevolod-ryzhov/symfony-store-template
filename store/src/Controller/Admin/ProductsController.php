@@ -151,7 +151,7 @@ class ProductsController extends AbstractController
         return $this->render('app/admin/products/imagesUpload.html.twig', [
             'form' => $form->createView(),
             'product' => $product,
-            'images' => $image->getProductImages($product)
+            'images' => $image->getProductImagesByEntity($product)
         ]);
     }
 

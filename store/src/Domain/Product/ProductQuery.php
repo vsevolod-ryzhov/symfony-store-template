@@ -80,7 +80,8 @@ class ProductQuery
                 'sku',
                 'price_price',
                 'warehouse',
-                'is_deleted'
+                'is_deleted',
+                'image_order'
             )
             ->from('product_products')
             ->orderBy('sort, created_date', 'desc');
