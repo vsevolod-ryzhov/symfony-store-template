@@ -124,7 +124,7 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/photos/{id}", name=".images")
+     * @Route("/images/{id}", name=".images")
      * @param Request $request
      * @param Product $product
      * @param Images\Upload\Handler $handler
@@ -162,7 +162,7 @@ class ProductsController extends AbstractController
      * @param Images\Delete\Handler $handler
      * @return Response
      */
-    public function deletePhoto(Product $product, Request $request, Images\Delete\Handler $handler): Response
+    public function deleteImage(Product $product, Request $request, Images\Delete\Handler $handler): Response
     {
         if (!$this->isCsrfTokenValid('image', $request->request->get('token'))) {
             return $this->redirectToRoute('admin.products.images', ['id' => $product->getId()]);
@@ -181,13 +181,13 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/photos/{id}/sort", name=".images.sort", methods={"POST"})
+     * @Route("/images/{id}/sort", name=".images.sort", methods={"POST"})
      * @param Request $request
      * @param Product $product
      * @param Images\Sort\Handler $handler
      * @return Response
      */
-    public function photosSort(Request $request, Product $product, Images\Sort\Handler $handler): Response
+    public function imagesSort(Request $request, Product $product, Images\Sort\Handler $handler): Response
     {
         $response = new Response();
         $response->setStatusCode(Response::HTTP_OK);
