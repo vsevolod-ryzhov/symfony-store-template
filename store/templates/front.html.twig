@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Store admin panel{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body class="c-app">
+<div class="c-wrapper c-fixed-components">
+    <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+        <ul class="c-header-nav d-md-down-none">
+            <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="{{ path('home') }}">Главная</a></li>
+            <li class="c-header-nav-item px-3">
+                <a class="c-header-nav-link dropdown-toggle" href="#" id="categories-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Категории</a>
+                {% block categories_submenu %}{% endblock %}
+            </li>
+        </ul>
+
+        <ul class="c-header-nav ml-auto mr-4">
+            <li class="c-header-nav-item dropdown">
+                {{ top_user_menu() }}
+            </li>
+        </ul>
+
+
+        <div class="c-subheader px-3">
+            {% block breadcrumbs %}{% endblock %}
+        </div>
+    </header>
+    <div class="c-body">
+        <main class="c-main">
+            <div class="container-fluid">
+                {% include 'parts/messages.html.twig' %}
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>

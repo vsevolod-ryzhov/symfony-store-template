@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'front.html.twig' %}
 
 {% block title %}Home{% endblock %}
 
@@ -6,6 +6,12 @@
     <ol class="breadcrumb border-0 m-0">
         <li class="breadcrumb-item active">Главная</li>
     </ol>
+{% endblock %}
+
+{% block categories_submenu %}
+    <div class="dropdown-menu" aria-labelledby="categories-dropdown">
+        {{ category_menu() }}
+    </div>
 {% endblock %}
 
 {% block body %}

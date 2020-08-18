@@ -1,0 +1,13 @@
+{% if isLoggedIn == 'active' %}
+    <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        <div class="c-avatar"><i class="fa fa-user fa-2x c-avatar-img"></i></div>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right pt-0">
+        <div class="dropdown-header bg-light py-2"><strong>Аккаунт</strong></div>
+        <span class="dropdown-item">
+            <a class="dropdown-item" href="{{ path('app_logout') }}">
+                <i class="fa fa-power-off c-icon mr-2"></i> Выйти
+            </a>
+        </span>
+    </div>
+{% endif %}
