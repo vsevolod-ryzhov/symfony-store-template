@@ -28,7 +28,11 @@ class CategoriesController extends AbstractController
      */
     public function category(Request $request, Category $category, ProductQuery $query, Image $image): Response
     {
-        $products = $query->byCategory($category->getId(), $request->query->getInt('page', 1), self::PRODUCTS_PER_PAGE);
+        $products = $query->byCategory(
+            $category->getLft(),
+            $category->getRgt(),
+            $request->query->getInt('page', 1),
+            self::PRODUCTS_PER_PAGE);
         return $this->render('app/front/category.html.twig', [
             'category' => $category,
             'products' => $products,

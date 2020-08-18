@@ -68,26 +68,30 @@ class ProductQuery
         return $this->paginator->paginate($query, $page, $size);
     }
 
-    public function byCategory(int $category_id, int $page, int $size): PaginationInterface
+    public function byCategory(int $category_lft, int $category_rgt, int $page, int $size): PaginationInterface
     {
         $query = $this->connection->createQueryBuilder()
             ->select(
-                'id',
-                'created_date',
-                'updated_date',
-                'name',
-                'url',
-                'sku',
-                'price_price',
-                'warehouse',
-                'is_deleted',
-                'image_order'
+                'pp.id',
+                'pp.created_date',
+                'pp.updated_date',
+                'pp.name',
+                'pp.url',
+                'pp.sku',
+                'pp.price_price',
+                'pp.warehouse',
+                'pp.is_deleted',
+                'pp.image_order'
             )
-            ->from('product_products')
+            ->from('product_products', 'pp')
+            ->innerJoin('pp', 'product_categories', 'pc', 'pp.category_id = pc.id')
             ->orderBy('sort, created_date', 'desc');
 
-        $query->andWhere('category_id = :id');
-        $query->setParameter(':id', $category_id);
+        $query->andWhere('pc.lft >= :category_lft');
+        $query->setParameter(':category_lft', $category_lft);
+
+        $query->andWhere('pc.rgt <= :category_rgt');
+        $query->setParameter(':category_rgt', $category_rgt);
 
         return $this->paginator->paginate($query, $page, $size);
     }
